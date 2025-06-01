@@ -1,0 +1,74 @@
+.add-student-page {
+  display: flex;
+  transition: margin-left 0.3s ease;
+}
+
+/* Sidebar is 220px wide, so shift the main content accordingly */
+.add-student-page.sidebar-open .main-content {
+  margin-left: 240px;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  transition: margin-left 0.3s ease;
+}
+
+.student-page {
+  display: flex;
+  height: 100vh;
+  background: #f9f4f4;
+}
+
+.page-header {
+  background: #8b1e1e;
+  color: white;
+  padding: 15px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+    margin-top: 60px;
+}
+
+.page-header h2 {
+  margin: 0 0 8px 0;
+}
+
+.form-section {
+  background: #d9a9a9;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.student-form .form-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.student-form input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.add-btn {
+  background-color: #8b1e1e;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.students-list {
+  background: #8b1e1e;
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.student-card {
+  margin-bottom: 15px;
+}

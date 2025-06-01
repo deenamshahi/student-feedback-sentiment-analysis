@@ -1,0 +1,102 @@
+body {
+  margin: 0;
+}
+
+.student-dashboard {
+  background-color: #fff6f6;
+  padding: 1.5rem;
+  min-height: 100vh;
+}
+
+.student-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #800020;
+}
+
+.submission-link {
+  color: #800020;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.welcome-box {
+  background-color: #8B1C1C;
+  color: white;
+  padding: 1rem;
+  margin-top: 1.5rem;
+  border-radius: 10px;
+}
+
+.selector-box {
+  background-color: #8B1C1C;
+  color: white;
+  padding: 1rem;
+  margin-top: 1rem;
+  border-radius: 10px;
+}
+
+.selector-title {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.selectors {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.selectors select {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: none;
+  font-size: 1rem;
+}
+
+.feedback-form {
+  background-color: white;
+  padding: 1.25rem;
+  margin-top: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.question-block {
+  margin-bottom: 1.25rem;
+}
+
+.options label {
+  display: inline-block;
+  margin-right: 1rem;
+  font-size: 0.95rem;
+}
+
+.options input {
+  margin-right: 6px;
+}
+
+.submit-btn {
+  margin-top: 1rem;
+  padding: 10px 20px;
+  background-color: #8B1C1C;
+  color: white;
+  border: none;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background-color: #800020;
+}
