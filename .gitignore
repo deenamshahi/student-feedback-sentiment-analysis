@@ -1,0 +1,25 @@
+# Node (Vite React)
+node_modules/
+dist/
+.vite/
+
+# Java (Maven or Gradle)
+target/
+*.class
+*.jar
+*.war
+*.iml
+.gradle/
+build/
+
+# Python (AI model)
+__pycache__/
+*.py[cod]
+.env
+
+# OS / IDE / Misc
+.DS_Store
+*.log
+*.swp
+.idea/
+.vscode/
