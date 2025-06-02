@@ -32,14 +32,15 @@
 
 .card {
   flex: 1;
-  padding: 1.5rem;
+  /* height: 10rem; */
+  padding: 6.5rem;
   text-align: center;
   font-weight: bold;
   border-radius: 10px;
   color: white;
 }
 
-.card.total { background: #a5d6a7; }
+.card.total { background: #32cacd; }
 .card.positive { background: #008000B2; }
 .card.negative { background: #FF0800B2; }
 .card.neutral { background: #FEA761CC; }

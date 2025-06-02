@@ -10,12 +10,14 @@ const Sidebar = ({ isOpen }) => {
   const handleAddStudentClick = () => {
     navigate('/add-student');
   };
+  const handleTeacherManagementClick = () => {
+    navigate('/teacher-management');
+  };
   return (
      <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
       <ul>
-        <li>Teachers</li>
+        <li onClick={handleTeacherManagementClick}>Teachers</li>
         <li onClick={handleAddStudentClick}>Students</li>
-        <li>Analytics</li>
         <li onClick={handleFormClick}>Create Form</li>
       </ul>
     </aside>

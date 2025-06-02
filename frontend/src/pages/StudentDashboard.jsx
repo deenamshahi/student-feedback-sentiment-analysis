@@ -7,6 +7,7 @@ const StudentDashboard = () => {
   const [selectedCourse, setSelectedCourse] = useState('');
   const [selectedInstructor, setSelectedInstructor] = useState('');
   const [questions, setQuestions] = useState([]);
+  
 
   useEffect(() => {
     // Simulated fetch – later replace with actual API call
@@ -36,7 +37,7 @@ const StudentDashboard = () => {
     <div className="student-dashboard-container">
       <header className="student-header">
         <div className="logo">SFA</div>
-        <div className="submission-link">My submissions</div>
+        <div className="logout"><button>Logout</button></div>
       </header>
     <div className="student-dashboard">
 

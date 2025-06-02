@@ -7,6 +7,10 @@ const Navbar = ({ toggleSidebar }) => {
   const handleBackHome = () => {
     navigate('/admin-dashboard'); // Navigate to the home page or login page
   };
+  const handleLogout = () => {
+    // Logic to handle logout, e.g., clearing tokens, redirecting to login
+    navigate('/login');
+  };
   return (
   <nav className="navbar">
   <div className="navbar-inner">
@@ -15,10 +19,10 @@ const Navbar = ({ toggleSidebar }) => {
       <h1 onClick={handleBackHome}>SFA</h1>
     </div>
     <div className="center">
-      <input type="text" className="search-box" placeholder="Search Student" />
+      <input type="text" className="search-box" placeholder="Search..." />
     </div>
     <div className="right">
-      <span className="profile-icon">👤</span>
+      <button className="logout-btn" onClick={handleLogout}>Logout</button>
     </div>
   </div>
 </nav>

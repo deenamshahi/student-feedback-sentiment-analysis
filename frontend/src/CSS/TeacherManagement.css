@@ -1,0 +1,110 @@
+body {
+  margin: 0;
+}
+
+.teacher-page {
+  display: flex;
+  height: 100vh;
+  background-color: #f9f4f4;
+  margin-top: 60px;
+}
+
+
+/* Main */
+.main-content {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+
+/* Section Box */
+.section-box {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+}
+
+.section-box.red {
+  background-color: #8b1e1e;
+  color: white;
+}
+
+.section-box.pink {
+  background-color: #d9a9a9;
+  color: white;
+}
+
+/* Form */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.form-grid input {
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: none;
+  font-size: 1rem;
+}
+
+/* Button */
+.add-btn {
+  background-color: #8b1e1e;
+  color: white;
+  padding: 0.6rem 1.25rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Teacher Card */
+.teacher-card {
+  background-color: #8b1e1e;
+  color: white;
+  padding: 0.75rem 1rem;
+  margin-top: 1rem;
+  border-radius: 8px;
+  border: 1px solid white;
+}
+
+/* Sidebar Toggle Shrink Effect */
+.teacher-page {
+  display: flex;
+  transition: all 0.3s ease;
+}
+
+.sidebar-open .main-content {
+  margin-left: 250px;
+  transition: all 0.3s ease;
+}
+
+.main-content {
+  flex: 1;
+  padding: 1rem;
+  transition: all 0.3s ease;
+}
+
+/* Toast Notification */
+.toast-success {
+  position: fixed;
+  top: 80px;
+  right: 30px;
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 6px;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+  z-index: 999;
+  animation: fadeInOut 3s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(-20px); }
+  10%, 90% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-20px); }
+}
