@@ -9,7 +9,7 @@ const Navbar = ({ toggleSidebar }) => {
   };
   const handleLogout = () => {
     // Logic to handle logout, e.g., clearing tokens, redirecting to login
-    navigate('/login');
+    navigate('/');
   };
   return (
   <nav className="navbar">
