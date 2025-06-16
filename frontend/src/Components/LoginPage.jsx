@@ -18,14 +18,16 @@ const LoginPage = () => {
     setTimeout(() => {
       if (isAdmin) {
         if (email === 'admin@test.com' && password === 'admin123') {
-          alert(`Welcome, Admin!`);
+          alert('Welcome, Admin!');
+          localStorage.setItem("userRole", "admin"); // ✅ Store role
           navigate('/admin-dashboard');
         } else {
           setError('Invalid admin credentials');
         }
       } else {
         if (email === 'student@test.com' && password === 'student123') {
-          alert(`Welcome, Student!`);
+          alert('Welcome, Student!');
+          localStorage.setItem("userRole", "student"); // ✅ Store role
           navigate('/student-dashboard');
         } else {
           setError('Invalid student credentials');
@@ -46,15 +48,18 @@ const LoginPage = () => {
     <div className={`container ${isAdmin ? 'admin-theme' : 'student-theme'}`}>
       <div className="left-panel">
         <div className="title-text">
-          {isAdmin ? 'ADMIN DASHBOARD' : 'STUDENT FEEDBACK\nANALYSIS'}
+          {isAdmin ? '' : ''}
         </div>
       </div>
       <div className="login-box">
         <div className="info">
+          <h1 className="dashboard-heading">
+      {isAdmin ? 'Admin Dashboard' : 'Student Dashboard'}
+    </h1>
           <p className="subheading">
             {isAdmin
-              ? 'Access the admin dashboard to\nmonitor feedback and analytics'
-              : 'You are connecting to\nStudent Feedback Form'}
+              ? 'Access the admin dashboard to monitor feedback and analytics'
+              : 'You are connecting to Student Feedback Form'}
           </p>
           <h2 className="signin-text">SIGN IN</h2>
         </div>

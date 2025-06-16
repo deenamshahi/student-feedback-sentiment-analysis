@@ -51,9 +51,14 @@ const TeacherManagement = () => {
     setTeachers([...teachers, newTeacher]);
     setForm({ firstName: '', lastName: '', email: '', department: '' });
 
-    // Show toast
     setShowToast(true);
     setTimeout(() => setShowToast(false), 3000);
+  };
+
+  const handleDelete = (index) => {
+    const updatedTeachers = [...teachers];
+    updatedTeachers.splice(index, 1);
+    setTeachers(updatedTeachers);
   };
 
   return (
@@ -85,6 +90,8 @@ const TeacherManagement = () => {
             <input name="department" placeholder="Department" value={form.department} onChange={handleChange} />
           </div>
           <button className="add-btn" onClick={handleAddTeacher}>Add Teacher</button>
+          
+  
         </div>
 
         <div className="section-box red">
@@ -95,6 +102,11 @@ const TeacherManagement = () => {
               <p>{t.department} • {t.course}</p>
               <p>{t.email}</p>
               <p>{t.subjects}</p>
+              <div className="action-buttons">
+                <button className="edit-btn">Edit</button>
+                <button className="delete-btn" onClick={() => handleDelete(idx)}>Delete</button>
+              
+              </div>
             </div>
           ))}
         </div>

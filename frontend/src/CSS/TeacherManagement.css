@@ -4,19 +4,26 @@ body {
 
 .teacher-page {
   display: flex;
-  height: 100vh;
-  background-color: #f9f4f4;
-  margin-top: 60px;
-}
+  height:calc(100vh - 100px);
+  background-color: #e5fafa;
+  margin-top: 100px;
+  transition: all 0.3s ease;
+  
 
+  
+}
 
 /* Main */
 .main-content {
   flex: 1;
   padding: 1rem;
-  overflow-y: auto;
+  overflow: auto;
+  transition: all 0.3s ease;
 }
 
+.sidebar-open .main-content {
+  margin-left: 250px;
+}
 
 /* Section Box */
 .section-box {
@@ -27,19 +34,24 @@ body {
 }
 
 .section-box.red {
-  background-color: #8b1e1e;
-  color: white;
+  background-color: #e5fafa;
+  color: #00CED1;
 }
 
-.section-box.pink {
-  background-color: #d9a9a9;
-  color: white;
+.students-list {
+  background: none;
+  color: #00CED1;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1.5px solid #00CED1;
+  box-shadow: 0 4px 12px rgba(0, 206, 209, 0.15);
+  transition: all 0.3s ease;
 }
 
 /* Form */
 .form-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
   margin: 1rem 0;
 }
@@ -47,8 +59,10 @@ body {
 .form-grid input {
   padding: 0.6rem;
   border-radius: 6px;
-  border: none;
+  border: 1.5px solid #e5fafa; 
   font-size: 1rem;
+  background-color: #fff;
+  color: #333;
 }
 
 /* Button */
@@ -64,29 +78,12 @@ body {
 
 /* Teacher Card */
 .teacher-card {
-  background-color: #8b1e1e;
+  background-color: #00CED1;
   color: white;
   padding: 0.75rem 1rem;
   margin-top: 1rem;
   border-radius: 8px;
   border: 1px solid white;
-}
-
-/* Sidebar Toggle Shrink Effect */
-.teacher-page {
-  display: flex;
-  transition: all 0.3s ease;
-}
-
-.sidebar-open .main-content {
-  margin-left: 250px;
-  transition: all 0.3s ease;
-}
-
-.main-content {
-  flex: 1;
-  padding: 1rem;
-  transition: all 0.3s ease;
 }
 
 /* Toast Notification */
@@ -104,7 +101,59 @@ body {
 }
 
 @keyframes fadeInOut {
-  0% { opacity: 0; transform: translateY(-20px); }
-  10%, 90% { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(-20px); }
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  10%, 90% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
 }
+  .add-btn,
+  .edit-btn,
+  .delete-btn {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.7rem;
+  }
+  /* Edit & Delete Buttons */
+.edit-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+  margin-right: 0.5rem;
+  
+}
+
+.edit-btn:hover {
+  background-color: #218838;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+}
+
+

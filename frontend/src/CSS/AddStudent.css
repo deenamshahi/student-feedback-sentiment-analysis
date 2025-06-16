@@ -21,12 +21,12 @@
 }
 
 .page-header {
-  background: #8b1e1e;
-  color: white;
+  background: #e5fafa;
+  color: #00CED1;
   padding: 15px 20px;
   border-radius: 8px;
   margin-bottom: 20px;
-    margin-top: 60px;
+  margin-top: 80px;
 }
 
 .page-header h2 {
@@ -34,10 +34,11 @@
 }
 
 .form-section {
-  background: #d9a9a9;
+  background: transparent;
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 5px;
   margin-bottom: 20px;
+  border: 2px solid #00CED1;
 }
 
 .student-form .form-row {
@@ -54,23 +55,30 @@
 }
 
 .add-btn {
-  background-color: #8b1e1e;
-  color: white;
+  background-color: #00CED1 !important;
+  color: #fff;
   border: none;
   padding: 10px 16px;
   border-radius: 6px;
   cursor: pointer;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
 }
 
 .students-list {
-  background: #8b1e1e;
-  color: white;
+  background: none;
+  color: #00CED1;
   padding: 20px;
   border-radius: 8px;
+  border: 2px solid #00CED1;
 }
 
 .student-card {
   margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
 }
 
 /* Sidebar responsive shift */
@@ -108,4 +116,49 @@
   0% { opacity: 0; transform: translateY(-20px); }
   10%, 90% { opacity: 1; transform: translateY(0); }
   100% { opacity: 0; transform: translateY(-20px); }
+}
+
+.student-card {
+  background-color: #e5fafa;
+  color: #000000;
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  position: relative;
+}
+
+.student-card strong {
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.student-card button {
+  margin-top: 10px;
+  padding: 6px 12px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+  margin-right: 8px;
+}
+
+.student-card button.edit-btn {
+  background-color: #4caf50;
+  color: white;
+}
+
+.student-card button.edit-btn:hover {
+  background-color: #45a049;
+}
+
+.student-card button.delete-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+.student-card button.delete-btn:hover {
+  background-color: #d32f2f;
 }

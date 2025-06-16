@@ -1,35 +1,55 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Sidebar from '../Components/Sidebar';
 import Navbar from '../Components/Navbar';
 import '../CSS/AdminDashboard.css';
 
 const AdminDashboard = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const toggleSidebar = () => setSidebarOpen(prev => !prev);
 
   return (
     <div className={`dashboard-container ${sidebarOpen ? 'sidebar-active' : ''}`}>
-      <Navbar toggleSidebar={toggleSidebar} />
+      <Navbar onHamburgerClick={toggleSidebar} />
       <Sidebar isOpen={sidebarOpen} />
+
       <main className="dashboard-content">
-        <section className="stats">
-          <div className="card total">247<br />Total Feedback</div>
-          <div className="card positive">156<br />Positive</div>
-          <div className="card negative">45<br />Negative</div>
-          <div className="card neutral">46<br />Neutral</div>
+        {/* Feedback Summary */}
+        <section className="feedback-summary">
+          <div className="feedback-box total">
+            <h3>Total Feedback</h3>
+            <p>247</p>
+          </div>
+          <div className="feedback-box positive">
+            <h3>Positive</h3>
+            <p>156</p>
+          </div>
+          <div className="feedback-box negative">
+            <h3>Negative</h3>
+            <p>45</p>
+          </div>
+          <div className="feedback-box neutral">
+            <h3>Neutral</h3>
+            <p>46</p>
+          </div>
         </section>
-        <section className="analytics-placeholder">
-          <h2>Sentiment Trends Over Time</h2>
-          <div className="chart-placeholder">[Graph Placeholder]</div>
-        </section>
-        <section className="feedback">
-          <div className="chart-placeholder">[Pie Chart Placeholder]</div>
-          <div className="recent-feedback">
-            <h3>Recent Feedback</h3>
-            <p><strong>CS101 - Prof. Smith</strong><br />"The professor explains clearly..."</p>
-            <p><strong>ENG301 - Prof. Williams</strong><br />"Interesting but could improve..."</p>
-            <p><strong>MATH201 - Prof. Johnson</strong><br />"Assignments unclear..."</p>
+
+        {/* Chart Grid */}
+        <section className="visualization-grid">
+          <div className="chart-section">
+            <h3>Sentiment Over Time</h3>
+            <div>[Line Chart Placeholder]</div>
+          </div>
+          <div className="chart-section">
+            <h3>Sentiment Distribution</h3>
+            <div>[Pie Chart Placeholder]</div>
+          </div>
+          <div className="chart-section">
+            <h3>Feedback per Course</h3>
+            <div>[Bar Chart Placeholder]</div>
+          </div>
+          <div className="chart-section">
+            <h3>Monthly Feedback</h3>
+            <div>[Area Chart Placeholder]</div>
           </div>
         </section>
       </main>

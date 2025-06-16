@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../CSS/AddStudent.css';
+import '../CSS/AddStudent.css';  // Make sure your CSS file is correctly named and path is right
 import Navbar from '../Components/Navbar';
 import Sidebar from '../Components/Sidebar';
 
@@ -33,10 +33,24 @@ const AddStudentPage = () => {
     year: ''
   });
 
+  const [editingIndex, setEditingIndex] = useState(null);
+  const [editForm, setEditForm] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    studentId: '',
+    department: '',
+    year: ''
+  });
+
   const [showToast, setShowToast] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleEditChange = (e) => {
+    setEditForm({ ...editForm, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
@@ -68,12 +82,55 @@ const AddStudentPage = () => {
     setTimeout(() => setShowToast(false), 3000);
   };
 
+  const handleDelete = (index) => {
+    const newStudents = students.filter((_, i) => i !== index);
+    setStudents(newStudents);
+  };
+
+  const startEditing = (index) => {
+    const s = students[index];
+    const [firstName, ...lastNameParts] = s.name.split(' ');
+    const lastName = lastNameParts.join(' ');
+    setEditForm({
+      firstName,
+      lastName,
+      email: s.email,
+      studentId: s.id,
+      department: s.department,
+      year: s.year
+    });
+    setEditingIndex(index);
+  };
+
+  const cancelEditing = () => {
+    setEditingIndex(null);
+  };
+
+  const saveEdit = (e) => {
+    e.preventDefault();
+    const { firstName, lastName, email, studentId, department, year } = editForm;
+    if (!firstName || !lastName || !email || !studentId || !department || !year) return;
+
+    const updatedStudent = {
+      name: `${firstName} ${lastName}`,
+      id: studentId,
+      department,
+      year,
+      email
+    };
+
+    const updatedStudents = [...students];
+    updatedStudents[editingIndex] = updatedStudent;
+    setStudents(updatedStudents);
+    setEditingIndex(null);
+  };
+
   return (
     <div className={`add-student-page ${sidebarOpen ? 'sidebar-open' : ''}`}>
       <Navbar toggleSidebar={toggleSidebar} />
       <Sidebar isOpen={sidebarOpen} />
       <main className="main-content">
-        
+
         {showToast && (
           <div className="toast-success">✅ Student added successfully!</div>
         )}
@@ -137,7 +194,7 @@ const AddStudentPage = () => {
                 onChange={handleChange}
               />
             </div>
-            <button type="submit" className="add-btn">Add Student</button>
+            <button className="add-btn" type="submit">Add Student</button>
           </form>
         </section>
 
@@ -145,9 +202,64 @@ const AddStudentPage = () => {
           <h3>Students</h3>
           {students.map((s, idx) => (
             <div key={idx} className="student-card">
-              <strong>{s.name}</strong><br />
-              {s.id} • {s.department} • {s.year}<br />
-              {s.email}
+              {editingIndex === idx ? (
+                <form onSubmit={saveEdit} style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <input
+                    type="text"
+                    name="firstName"
+                    placeholder="First Name"
+                    value={editForm.firstName}
+                    onChange={handleEditChange}
+                  />
+                  <input
+                    type="text"
+                    name="lastName"
+                    placeholder="Last Name"
+                    value={editForm.lastName}
+                    onChange={handleEditChange}
+                  />
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    value={editForm.email}
+                    onChange={handleEditChange}
+                  />
+                  <input
+                    type="text"
+                    name="studentId"
+                    placeholder="Student ID"
+                    value={editForm.studentId}
+                    onChange={handleEditChange}
+                  />
+                  <input
+                    type="text"
+                    name="department"
+                    placeholder="Department"
+                    value={editForm.department}
+                    onChange={handleEditChange}
+                  />
+                  <input
+                    type="text"
+                    name="year"
+                    placeholder="Academic Year"
+                    value={editForm.year}
+                    onChange={handleEditChange}
+                  />
+                  <div>
+                    <button type="submit" style={{ marginRight: '8px' }}>Save</button>
+                    <button type="button" onClick={cancelEditing}>Cancel</button>
+                  </div>
+                </form>
+              ) : (
+                <>
+                  <strong>{s.name}</strong><br />
+                  {s.id} • {s.department} • {s.year}<br />
+                  {s.email}<br />
+                  <button className="edit-btn" onClick={() => startEditing(idx)}>Edit</button>
+                  <button className="delete-btn" onClick={() => handleDelete(idx)}>Delete</button>
+                </>
+              )}
             </div>
           ))}
         </section>

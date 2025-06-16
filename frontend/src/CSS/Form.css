@@ -5,7 +5,7 @@
   padding: 1.5rem;
   margin: 2rem auto;
   max-width: 700px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 20px #e5fafa;
 }
 
 .create-form h2{
@@ -16,9 +16,9 @@
 .question-block {
   margin-bottom: 1.5rem;
   padding: 1rem;
-  border: 1px dashed #F8EDEB;
+  border: 1px dashed #e5fafa;
   border-radius: 10px;
-  background-color: #F8EDEB;
+  /*background-color: #e5fafa;*/
 }
 
 .question-block input {
@@ -27,27 +27,29 @@
   margin-bottom: 10px;
   padding: 8px;
   font-size: 14px;
-  border: 1px solid #8B1C1C4D;
+  border: 1px solid #00CED1;
   border-radius: 6px;
-  background-color: #8B1C1C4D;
+  /*background-color: #e5fafa;*/
 }
 
 .question-block button {
-  background-color: #85080880;
+  background-color: #00CED1;
   color: white;
   border: none;
   padding: 8px 14px;
   border-radius: 6px;
   cursor: pointer;
   transition: background 0.2s ease;
+  display: block;
+  margin: 10px auto;
 }
 
 .question-block button:hover {
-  background-color: #8B1C1C;
+  background-color: #00CED1;
 }
 
 .submit-btn {
-  background-color: #8B1C1C;
+  background-color: #00CED1;
   padding: 8px 13px;
   font-weight: bold;
   border-radius: 8px;
@@ -57,12 +59,12 @@
 }
 
 .submit-btn:hover {
-  background-color: #F8EDEB;
-  color: #8B1C1C;
+  background-color: #e5fafa;
+  color: #00CED1 !important;
 }
 
 .add-question-btn {
-  background-color: #85080880;
+  background-color: #00CED1;
   color: white;
   border: none;
   padding: 8px 14px;
@@ -73,36 +75,19 @@
 }
 
 .add-question-btn:hover {
-  background-color: #8B1C1C;
+  background-color: #00CED1;
 }
 
 .form-type {
   margin: 1rem auto;
   text-align: center;
+   margin-top: 50px;
 }
 
 .form-type label {
   margin-right: 10px;
   font-weight: bold;
-  color: #8B1C1C;
-}
-
-.form-type select {
-  padding: 6px 12px;
-  border-radius: 6px;
-  border: 1px solid #8B1C1C4D;
-  background-color: #8B1C1C;
-}
-
-.form-type {
-  margin: 1rem auto;
-  text-align: center;
-}
-
-.form-type label {
-  margin-right: 10px;
-  font-weight: bold;
-  color: #8B1C1C;
+  color: #00CED1;
 }
 
 .form-type select,
@@ -110,8 +95,8 @@
   margin-left: 10px;
   padding: 6px 12px;
   border-radius: 6px;
-  border: 1px solid #8B1C1C;
-  background-color: #F8EDEB;
+  border: 1px solid #00CED1;
+  background-color: #e5fafa;
   font-size: 14px;
 }
 

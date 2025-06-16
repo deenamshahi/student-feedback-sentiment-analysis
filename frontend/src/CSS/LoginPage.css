@@ -1,13 +1,13 @@
 :root {
-  --student-bg: #F8EDEB;
-  --student-input: #8B1C1C4D;
-  --student-btn: #8B1C1C;
-  --student-focus: #8B1C1C;
+  --student-bg: #e5fafa;
+  --student-input: #e5fafa;
+  --student-btn: #00CED1;
+  --student-focus:  #00CED1;
 
-  --admin-bg: #F8EDEB;
-  --admin-input: #8B1C1C4D;
-  --admin-btn: #8B1C1C;
-  --admin-focus: #8B1C1C;
+  --admin-bg: #e5fafa;
+  --admin-input: #e5fafa;
+  --admin-btn:  #00CED1;
+  --admin-focus:  #00CED1;
 
   --error: #e53935;
 }
@@ -30,7 +30,7 @@ body {
 }
 
 .admin-theme {
-  background-color:#F8EDEB;
+  background-color:#e5fafa;
 }
 
 .left-panel {
@@ -57,10 +57,25 @@ body {
   background-color: white;
   padding: 32px;
   border-radius: 12px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 24px rgb(89, 157, 158);
   width: 100%;
   height: auto;
   max-width: 360px;
+}
+
+.login-box .info {
+  text-align: center;
+}
+
+.dashboard-heading {
+  color: #00CED1; /* or any color you want */
+}
+
+.login-box .heading {
+  margin-bottom: 0.5rem; /* some spacing below heading */
+  font-weight: bold;
+  font-size: 2rem; /* adjust size as needed */
+  color: #333; /* or your preferred color */
 }
 
 .subheading {

@@ -1,9 +1,7 @@
-
 .dashboard-container {
   display: flex;
   transition: all 0.3s ease;
-  padding: 70px;
-  background-color: #F8EDEB;
+  background-color: #e5fafa;
 }
 
 .sidebar-active .dashboard-content {
@@ -17,52 +15,90 @@
   width: 100%;
   margin-top: 60px;
 }
-.dashboard-wrapper {
-  display: flex;
-  margin-top: 60px; 
-  min-height: calc(100vh - 60px);
-}
 
-.stats {
+/* Feedback Summary Boxes */
+.feedback-summary {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  margin: 1rem 0;
+  justify-content: center;
+  margin-bottom: 2rem;
 }
 
-.card {
-  flex: 1;
-  /* height: 10rem; */
-  padding: 6.5rem;
+.feedback-box {
+  flex: 1 1 200px;
+  margin-top: 50px;
+  min-width: 200px;
+  max-width: 250px;
+  background-color: #fff;
+  color: #333;
   text-align: center;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   font-weight: bold;
-  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.feedback-box:hover {
+  transform: translateY(-5px);
+}
+
+.feedback-box.total {
+  background-color: #32cacd;
   color: white;
 }
 
-.card.total { background: #32cacd; }
-.card.positive { background: #008000B2; }
-.card.negative { background: #FF0800B2; }
-.card.neutral { background: #FEA761CC; }
+.feedback-box.positive {
+  background-color: #008000B2;
+  color: white;
+}
 
-.analytics-placeholder,
-.chart-placeholder {
-  margin: 2rem 0;
+.feedback-box.negative {
+  background-color: #FF0800B2;
+  color: white;
+}
+
+.feedback-box.neutral {
+  background-color: #FEA761CC;
+  color: white;
+}
+
+/* Chart Grid Section */
+.visualization-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  align-items: stretch;
+}
+
+.chart-section {
+  background-color: white;
   padding: 1.5rem;
-  background: white;
   border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  min-height: 200px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
+  min-height: 200px;
 }
 
-.feedback {
-  display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
+.chart-section h3 {
+  margin-bottom: 1rem;
+  color: #8B1C1C;
 }
 
-.recent-feedback {
-  flex: 1;
-  min-width: 300px;
+/* Responsive Design */
+@media (max-width: 768px) {
+  .feedback-summary {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .feedback-box {
+    width: 90%;
+  }
+
+  .visualization-grid {
+    grid-template-columns: 1fr;
+  }
 }

@@ -1,65 +1,146 @@
 body {
   margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #ffffff;
 }
 
-.student-dashboard {
-  background-color: #fff6f6;
-  padding: 1.5rem;
+/* Container for the whole dashboard */
+.student-dashboard,
+.student-dashboard-container {
+  padding-top: 80px; /* content below fixed progress bar */
+  padding-left: 2rem;
+  padding-right: 2rem;
   min-height: 100vh;
 }
 
-.student-header {
+/* Fixed progress bar */
+.progress-fixed {
+  position: fixed;
+  top: 75px; /* match navbar height */
+  left: 0;
+  width: 100%;
+  z-index: 999; /* lower than navbar */
+  background-color: white;
+  padding: 12px 24px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  background: white;
-  padding: 0.75rem 1.25rem;
-  border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  height: 10px; /* optional: set height explicitly */
 }
 
-.logo {
+
+/* Flex container for progress text and bar */
+.progress-wrapper {
+  width: 90%;
+  max-width: 600px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Percentage text */
+.progress-bar-text {
   font-weight: bold;
+  font-size: 16px;
+  min-width: 40px;
+  color: #333;
+  font-family: Arial, sans-serif;
+  text-align: right;
+}
+
+/* Background track of progress bar */
+.progress-bar-track {
+  flex-grow: 1;
+  background-color: #ddd;
+  height: 16px;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+/* Filled part of the progress bar */
+.progress-bar-fill {
+  height: 100%;
+  background-color: #4caf50; /* bright green */
+  border-radius: 999px 0 0 999px;
+  width: 0; /* to be set dynamically */
+  transition: width 0.3s ease;
+}
+
+
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hamburger {
   font-size: 1.5rem;
-  color: #800020;
-}
-
-.logout button{
-  background-color: #800020;
-  font-size: 15px;
-  cursor: pointer;
-  color: white;
-  padding: 0.5rem 1rem;
+  background: none;
   border: none;
+  cursor: pointer;
+}
+
+.left h1 {
+  margin: 0;
+  cursor: pointer;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.center {
+  flex-grow: 1;
+  margin: 0 1.5rem;
+}
+
+.search-box {
+  width: 100%;
+  padding: 0.5rem 1rem;
   border-radius: 6px;
-  transition: background-color 0.3s ease;
+  border: 1px solid #ccc;
+  font-size: 1rem;
 }
 
-.welcome-box {
-  background-color: #8B1C1C;
-  color: white;
-  padding: 1rem;
-  margin-top: 1.5rem;
-  border-radius: 10px;
+.right {
+  display: flex;
+  align-items: center;
 }
 
+.welcome-box,
+.selector-box,
+.feedback-form {
+  margin: 20px auto;
+  max-width: 800px;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow:c0d3ea
+}
+
+.welcome-box,
 .selector-box {
-  background-color: #8B1C1C;
-  color: white;
-  padding: 1rem;
-  margin-top: 1rem;
-  border-radius: 10px;
+  background-color: transparent; /* No fill */
+  border: 2px solid #00CED1;     /* Border with color */
+  color: #00b3b5;                /* Text color matching border */
+  border-radius: 12px;
 }
+
 
 .selector-title {
+  display:center;
+  justify-content: center;
+  align-items: center;
+  
   font-weight: bold;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
 }
 
 .selectors {
   display: flex;
-  flex-direction: row;
-  gap: 10px;
+  gap: 40px;
+  margin-top: 10px;
 }
 
 .selectors select {
@@ -67,41 +148,98 @@ body {
   border-radius: 6px;
   border: none;
   font-size: 1rem;
+  background: white;
+  color: #2c3e50;
+     border: 1px solid #00CED1;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);    /* Border with color */
+
 }
 
 .feedback-form {
   background-color: white;
-  padding: 1.25rem;
+  padding: 1.5rem;
   margin-top: 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
 }
 
+.feedback-form .question-block,
 .question-block {
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
+  background-color:#e5fafa; 
+
+}
+.question-block {
+  background-color:#e5fafa; /* light blue as example */
+  padding: 16px;
+  border-radius: 8px;
 }
 
+
+.feedback-form .options label,
 .options label {
   display: inline-block;
-  margin-right: 1rem;
+  margin-right: 1.5rem;
   font-size: 0.95rem;
+  color: #2c3e50;
 }
 
+.feedback-form .options input,
 .options input {
   margin-right: 6px;
 }
 
-.submit-btn {
-  margin-top: 1rem;
-  padding: 10px 20px;
-  background-color: #8B1C1C;
+.pagination-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+
+.pagination-buttons button {
+  padding: 8px 16px;
+  background-color: #00CED1;
   color: white;
   border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.pagination-buttons button:disabled {
+  background-color: #3b6785;
+  cursor: not-allowed;
+}
+
+.submit-btn {
+  margin-top: 1.5rem;
+  padding: 12px 24px;
+  background-color: #00CED1;  /* This is blue, not maroon */
+  color: white;
+  border: #4388cd;
   font-weight: bold;
   border-radius: 6px;
   cursor: pointer;
+  width: 100%;
+  font-size: 1rem;
 }
 
 .submit-btn:hover {
-  background-color: #800020;
+  background-color: #516f8d;  /* Darker blue on hover */
+}
+.student-card button.edit-btn {
+  background-color: #4caf50;
+  color: white;
+}
+
+.student-card button.edit-btn:hover {
+  background-color: #45a049;
+}
+
+.student-card button.delete-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+.student-card button.delete-btn:hover {
+  background-color: #d32f2f;
 }
