@@ -43,12 +43,14 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/login", "/refresh-token").permitAll() // Allow registration without auth for now
                         .requestMatchers("/users/me").authenticated()
+                        .requestMatchers("/logout").authenticated()
                         .requestMatchers("/register", "/deleteUser/{id}", "/updateUser/{id}", "/users/{id}", "/users", "/users/students", "/users/teachers", "/users/admins").hasAuthority("Admin") // Re-enable this after fixing the roles
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .logout(logout -> logout.disable())
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint((request, response, authException) -> {
                             response.setContentType("application/json");
