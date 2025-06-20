@@ -16,7 +16,7 @@ jobs:
         ports:
           - 5432:5432
         env:
-          POSTGRES_DB: student_feedback
+          POSTGRES_DB: StudentFeedbackSentimentAnalysis
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: aayush
         options: >-
@@ -26,22 +26,20 @@ jobs:
           --health-retries 5
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-      - name: Set up JDK 21
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '21'
-          cache: 'maven'
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '21'
+        cache: 'maven'
 
-      - name: Check Java version
-        run: java -version
+    - name: Check Java version
+      run: java -version
 
-      - name: Grant Maven wrapper permission
-        run: chmod +x backend/mvnw
+    - name: Grant execute permission to Maven wrapper
+      run: chmod +x mvnw
 
-      - name: Run Maven tests from backend/
-        working-directory: backend
-        run: ./mvnw clean test
+    - name: Run tests
+      run: ./mvnw clean test
