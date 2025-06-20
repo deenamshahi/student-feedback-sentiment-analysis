@@ -6,9 +6,27 @@ import '../CSS/Form.css';
 const CreateForm = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+
   const [questions, setQuestions] = useState([{ question: '', options: [''] }]);
   const [formType, setFormType] = useState('Teacher');
   const [targetName, setTargetName] = useState('');
+  const [comments, setComments] = useState('');
+  const maxWords = 100;
+
+  // Static teacher and course data
+  const teachers = [
+    'Prof. Aayush Sharma',
+    'Dr. Pratiksha Koirala',
+    'Ms. Ritesh Gurung'
+  ];
+
+  const courses = [
+    'Data Structures and Algorithms',
+    'Engineering Mathematics',
+    'Object-Oriented Programming'
+  ];
+
+  const optionsList = formType === 'Teacher' ? teachers : courses;
 
   const handleQuestionChange = (index, value) => {
     const newQuestions = [...questions];
@@ -32,6 +50,14 @@ const CreateForm = () => {
     setQuestions([...questions, { question: '', options: [''] }]);
   };
 
+  const handleCommentsChange = (e) => {
+    const input = e.target.value;
+    const wordCount = input.trim().split(/\s+/).filter(Boolean).length;
+    if (wordCount <= maxWords) {
+      setComments(input);
+    }
+  };
+
   const submitForm = () => {
     if (!targetName.trim()) {
       alert(`Please specify which ${formType.toLowerCase()} the feedback is for.`);
@@ -40,6 +66,7 @@ const CreateForm = () => {
     console.log('Form Type:', formType);
     console.log(`${formType} Name/Title:`, targetName);
     console.log('Submitted Form:', questions);
+    console.log('Additional Comments:', comments);
     alert(`Feedback form for ${formType} "${targetName}" created successfully!`);
   };
 
@@ -53,14 +80,15 @@ const CreateForm = () => {
         <label>Form for:</label>
         <select value={formType} onChange={(e) => setFormType(e.target.value)}>
           <option value="Teacher">Teacher</option>
-          <option value="Subject">Subject</option>
+          <option value="Course">Course</option>
         </select>
-        <input
-          type="text"
-          placeholder={`Enter ${formType} name`}
-          value={targetName}
-          onChange={(e) => setTargetName(e.target.value)}
-        />
+
+        <select value={targetName} onChange={(e) => setTargetName(e.target.value)}>
+          <option value="">{`Select ${formType}`}</option>
+          {optionsList.map((item, idx) => (
+            <option key={idx} value={item}>{item}</option>
+          ))}
+        </select>
       </div>
 
       <section className="create-form">
@@ -84,7 +112,23 @@ const CreateForm = () => {
             <button type="button" onClick={() => addOption(qIndex)}>Add Option</button>
           </div>
         ))}
+
         <button type="button" onClick={addQuestion} className='add-question-btn'>Add Question</button>
+
+        {/* Additional Comments Section */}
+        <div className="additional-comments">
+          <label htmlFor="comments">Additional Comments (optional)</label>
+          <textarea
+            id="comments"
+            value={comments}
+            onChange={handleCommentsChange}
+            placeholder="Share your other thoughts or suggestions..."
+          />
+          <div className="word-count">
+            {comments.trim().split(/\s+/).filter(Boolean).length} / {maxWords} words
+          </div>
+        </div>
+
         <button type="button" className="submit-btn" onClick={submitForm}>Create Form</button>
       </section>
     </div>

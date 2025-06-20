@@ -156,4 +156,48 @@ body {
   background-color: #c82333;
 }
 
+/* Course Dropdown Styling */
+.form-grid select[name="course"] {
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: 1.5px solid #e5fafa;
+  font-size: 1rem;
+  background-color: #fff;
+  color: #757575;
+  width: 100%;
+  box-sizing: border-box;
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%2300CED1' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+}
+
+/* Make the course dropdown span across two columns */
+.form-grid select[name="course"] {
+  grid-column: span 2;
+}
+
+
+.toast-success {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 999;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  animation: fadeInOut 3s ease forwards;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(-20px); }
+  10% { opacity: 1; transform: translateY(0); }
+  90% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-20px); }
+}
+
 

@@ -9,18 +9,25 @@ const TeacherManagement = () => {
 
   const [teachers, setTeachers] = useState([
     {
-      name: 'Prof. Robert Smith',
-      department: 'Computer Science',
-      course: 'CS-201',
-      email: 'robert.smith@university.edu',
-      subjects: 'Machine Learning, Data Science'
+      name: 'Prof. Aayush Sharma',
+      email: 'aayush.sharma@university.edu',
+      course: 'Data Structures and Algorithms',
+      password: '******',
+      subjects: 'Data Structures and Algorithms'
     },
     {
-      name: 'Dr. Maria Johnson',
-      department: 'Mathematics',
-      course: 'MATH-105',
-      email: 'maria.johnson@university.edu',
-      subjects: 'Calculus, Linear Algebra'
+      name: 'Dr. Pratiksha Koirala',
+      email: 'pratiksha.koirala@university.edu',
+      course: 'Engineering Mathematics',
+      password: '******',
+      subjects: 'Engineering Mathematics'
+    },
+    {
+      name: 'Ms. Ritesh Gurung',
+      email: 'ritesh.gurung@university.edu',
+      course: 'Object-Oriented Programming',
+      password: '******',
+      subjects: 'Object-Oriented Programming'
     }
   ]);
 
@@ -28,37 +35,49 @@ const TeacherManagement = () => {
     firstName: '',
     lastName: '',
     email: '',
-    department: ''
+    password: '',
+    course: ''
   });
 
   const [showToast, setShowToast] = useState(false);
+  const [showDeleteToast, setShowDeleteToast] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleAddTeacher = () => {
-    if (!form.firstName || !form.lastName || !form.email || !form.department) return;
+    const { firstName, lastName, email, password, course } = form;
+
+    if (!firstName || !lastName || !email || !password || !course) {
+      alert("Please fill in all the fields.");
+      return;
+    }
 
     const newTeacher = {
-      name: `${form.firstName} ${form.lastName}`,
-      department: form.department,
-      course: 'TBD',
-      email: form.email,
-      subjects: 'TBD'
+      name: `${firstName} ${lastName}`,
+      course,
+      email,
+      password: '******',
+      subjects: course
     };
 
     setTeachers([...teachers, newTeacher]);
-    setForm({ firstName: '', lastName: '', email: '', department: '' });
+    setForm({ firstName: '', lastName: '', email: '', password: '', course: '' });
 
     setShowToast(true);
     setTimeout(() => setShowToast(false), 3000);
   };
 
   const handleDelete = (index) => {
-    const updatedTeachers = [...teachers];
-    updatedTeachers.splice(index, 1);
-    setTeachers(updatedTeachers);
+    const confirmed = window.confirm("Are you sure you want to delete this teacher?");
+    if (confirmed) {
+      const updatedTeachers = [...teachers];
+      updatedTeachers.splice(index, 1);
+      setTeachers(updatedTeachers);
+      setShowDeleteToast(true);
+      setTimeout(() => setShowDeleteToast(false), 3000);
+    }
   };
 
   return (
@@ -73,6 +92,12 @@ const TeacherManagement = () => {
           </div>
         )}
 
+        {showDeleteToast && (
+          <div className="toast-success delete-toast">
+            🗑️ Teacher deleted successfully!
+          </div>
+        )}
+
         <div className="section-box red">
           <h2>Teacher Management</h2>
           <p>
@@ -84,14 +109,39 @@ const TeacherManagement = () => {
         <div className="section-box pink">
           <h2>Add New Teacher</h2>
           <div className="form-grid">
-            <input name="firstName" placeholder="First Name" value={form.firstName} onChange={handleChange} />
-            <input name="lastName" placeholder="Last Name" value={form.lastName} onChange={handleChange} />
-            <input name="email" placeholder="Email Address" value={form.email} onChange={handleChange} />
-            <input name="department" placeholder="Department" value={form.department} onChange={handleChange} />
+            <input
+              name="firstName"
+              placeholder="First Name"
+              value={form.firstName}
+              onChange={handleChange}
+            />
+            <input
+              name="lastName"
+              placeholder="Last Name"
+              value={form.lastName}
+              onChange={handleChange}
+            />
+            <input
+              name="email"
+              placeholder="Email Address"
+              value={form.email}
+              onChange={handleChange}
+            />
+            <input
+              name="password"
+              placeholder="Password"
+              type="password"
+              value={form.password}
+              onChange={handleChange}
+            />
+            <select name="course" value={form.course} onChange={handleChange}>
+              <option value="">Select Course</option>
+              <option value="Data Structures and Algorithms">Data Structures and Algorithms</option>
+              <option value="Engineering Mathematics">Engineering Mathematics</option>
+              <option value="Object-Oriented Programming">Object-Oriented Programming</option>
+            </select>
           </div>
           <button className="add-btn" onClick={handleAddTeacher}>Add Teacher</button>
-          
-  
         </div>
 
         <div className="section-box red">
@@ -99,13 +149,12 @@ const TeacherManagement = () => {
           {teachers.map((t, idx) => (
             <div key={idx} className="teacher-card">
               <strong>{t.name}</strong>
-              <p>{t.department} • {t.course}</p>
+              <p>{t.course}</p>
               <p>{t.email}</p>
               <p>{t.subjects}</p>
               <div className="action-buttons">
                 <button className="edit-btn">Edit</button>
                 <button className="delete-btn" onClick={() => handleDelete(idx)}>Delete</button>
-              
               </div>
             </div>
           ))}

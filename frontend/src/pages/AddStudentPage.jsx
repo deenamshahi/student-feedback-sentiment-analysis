@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../CSS/AddStudent.css';  // Make sure your CSS file is correctly named and path is right
+import '../CSS/AddStudent.css';
 import Navbar from '../Components/Navbar';
 import Sidebar from '../Components/Sidebar';
 
@@ -9,18 +9,28 @@ const AddStudentPage = () => {
 
   const [students, setStudents] = useState([
     {
-      name: 'John Doe',
-      id: 'S2024001',
-      department: 'Computer Science',
-      year: 'Junior',
-      email: 'john.doe@university.edu'
+      name: 'Anisha Sharma',
+      id: 'S2024003',
+      faculty: 'Computer Science',
+      year: 'Second',
+      email: 'anisha.sharma@student.edu',
+      password: 'anisha123'
     },
     {
-      name: 'Sarah Johnson',
-      id: 'S2024002',
-      department: 'Mathematics',
-      year: 'Sophomore',
-      email: 'sarah.johnson@university.edu'
+      name: 'Rahul Thapa',
+      id: 'S2024004',
+      faculty: 'Engineering',
+      year: 'First',
+      email: 'rahul.thapa@student.edu',
+      password: 'rahul456'
+    },
+    {
+      name: 'Sneha Karki',
+      id: 'S2024005',
+      faculty: 'Mathematics',
+      year: 'Third',
+      email: 'sneha.karki@student.edu',
+      password: 'sneha789'
     }
   ]);
 
@@ -29,8 +39,9 @@ const AddStudentPage = () => {
     lastName: '',
     email: '',
     studentId: '',
-    department: '',
-    year: ''
+    faculty: '',
+    year: '',
+    password: ''
   });
 
   const [editingIndex, setEditingIndex] = useState(null);
@@ -39,11 +50,19 @@ const AddStudentPage = () => {
     lastName: '',
     email: '',
     studentId: '',
-    department: '',
-    year: ''
+    faculty: '',
+    year: '',
+    password: ''
   });
 
-  const [showToast, setShowToast] = useState(false);
+  const [toast, setToast] = useState({ visible: false, message: '', type: '' });
+  const showToast = (message, type = 'success') => {
+    setToast({ visible: true, message, type });
+    setTimeout(() => setToast({ visible: false, message: '', type: '' }), 3000);
+  };
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortKey, setSortKey] = useState('');
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -55,36 +74,32 @@ const AddStudentPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { firstName, lastName, email, studentId, department, year } = form;
-
-    if (!firstName || !lastName || !email || !studentId || !department || !year) return;
+    const { firstName, lastName, email, studentId, faculty, year, password } = form;
+    if (!firstName || !lastName || !email || !studentId || !faculty || !year || !password) {
+      showToast('Please fill in all fields.', 'error');
+      return;
+    }
 
     const newStudent = {
       name: `${firstName} ${lastName}`,
       id: studentId,
-      department,
+      faculty,
       year,
-      email
+      email,
+      password
     };
 
     setStudents([...students, newStudent]);
-
-    setForm({
-      firstName: '',
-      lastName: '',
-      email: '',
-      studentId: '',
-      department: '',
-      year: ''
-    });
-
-    setShowToast(true);
-    setTimeout(() => setShowToast(false), 3000);
+    setForm({ firstName: '', lastName: '', email: '', studentId: '', faculty: '', year: '', password: '' });
+    showToast('Student added successfully!', 'success');
   };
 
   const handleDelete = (index) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this student?");
+    if (!confirmDelete) return;
     const newStudents = students.filter((_, i) => i !== index);
     setStudents(newStudents);
+    showToast('Student deleted.', 'success');
   };
 
   const startEditing = (index) => {
@@ -96,8 +111,9 @@ const AddStudentPage = () => {
       lastName,
       email: s.email,
       studentId: s.id,
-      department: s.department,
-      year: s.year
+      faculty: s.faculty,
+      year: s.year,
+      password: s.password
     });
     setEditingIndex(index);
   };
@@ -108,22 +124,31 @@ const AddStudentPage = () => {
 
   const saveEdit = (e) => {
     e.preventDefault();
-    const { firstName, lastName, email, studentId, department, year } = editForm;
-    if (!firstName || !lastName || !email || !studentId || !department || !year) return;
+    const { firstName, lastName, email, studentId, faculty, year, password } = editForm;
+    if (!firstName || !lastName || !email || !studentId || !faculty || !year || !password) return;
 
     const updatedStudent = {
       name: `${firstName} ${lastName}`,
       id: studentId,
-      department,
+      faculty,
       year,
-      email
+      email,
+      password
     };
 
     const updatedStudents = [...students];
     updatedStudents[editingIndex] = updatedStudent;
     setStudents(updatedStudents);
     setEditingIndex(null);
+    showToast('Student updated.', 'success');
   };
+
+  const filteredAndSortedStudents = students
+    .filter(s => s.name.toLowerCase().includes(searchTerm.toLowerCase()) || s.id.includes(searchTerm))
+    .sort((a, b) => {
+      if (!sortKey) return 0;
+      return a[sortKey].localeCompare(b[sortKey]);
+    });
 
   return (
     <div className={`add-student-page ${sidebarOpen ? 'sidebar-open' : ''}`}>
@@ -131,68 +156,35 @@ const AddStudentPage = () => {
       <Sidebar isOpen={sidebarOpen} />
       <main className="main-content">
 
-        {showToast && (
-          <div className="toast-success">✅ Student added successfully!</div>
-        )}
+        {toast.visible && <div className={`toast-${toast.type}`}>{toast.message}</div>}
 
         <header className="page-header">
           <h2>Student Management</h2>
-          <p>
-            Add new students to the system and manage existing student records. Students can
-            submit anonymous feedback for courses and instructors.
-          </p>
+          <p>Manage student records including adding, editing, and deleting student details.</p>
         </header>
 
         <section className="form-section">
           <h3>Add New Student</h3>
           <form className="student-form" onSubmit={handleSubmit}>
             <div className="form-row">
-              <input
-                type="text"
-                name="firstName"
-                placeholder="First Name"
-                value={form.firstName}
-                onChange={handleChange}
-              />
-              <input
-                type="text"
-                name="lastName"
-                placeholder="Last Name"
-                value={form.lastName}
-                onChange={handleChange}
-              />
+              <input type="text" name="firstName" placeholder="First Name" value={form.firstName} onChange={handleChange} />
+              <input type="text" name="lastName" placeholder="Last Name" value={form.lastName} onChange={handleChange} />
             </div>
             <div className="form-row">
-              <input
-                type="email"
-                name="email"
-                placeholder="Email Address"
-                value={form.email}
-                onChange={handleChange}
-              />
-              <input
-                type="text"
-                name="studentId"
-                placeholder="Student ID"
-                value={form.studentId}
-                onChange={handleChange}
-              />
+              <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} />
+              <input type="password" name="password" placeholder="Password" value={form.password} onChange={handleChange} />
             </div>
             <div className="form-row">
-              <input
-                type="text"
-                name="department"
-                placeholder="Department"
-                value={form.department}
-                onChange={handleChange}
-              />
-              <input
-                type="text"
-                name="year"
-                placeholder="Academic Year"
-                value={form.year}
-                onChange={handleChange}
-              />
+              <input type="text" name="studentId" placeholder="Student ID" value={form.studentId} onChange={handleChange} />
+              <input type="text" name="year" placeholder="Academic Year" value={form.year} onChange={handleChange} />
+            </div>
+            <div className="form-row">
+              <select name="faculty" value={form.faculty} onChange={handleChange}>
+                <option value="">Select Faculty / Programme</option>
+                <option value="Data Structures and Algorithms">Data Structures and Algorithms</option>
+                <option value="Engineering Mathematics">Engineering Mathematics</option>
+                <option value="Object-Oriented Programming">Object-Oriented Programming</option>
+              </select>
             </div>
             <button className="add-btn" type="submit">Add Student</button>
           </form>
@@ -200,52 +192,32 @@ const AddStudentPage = () => {
 
         <section className="students-list">
           <h3>Students</h3>
-          {students.map((s, idx) => (
+
+          <div className="controls">
+            <input
+              type="text"
+              placeholder="Search by name or ID"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <select onChange={(e) => setSortKey(e.target.value)} defaultValue="">
+              <option value="">Sort by</option>
+              <option value="name">Name</option>
+              <option value="year">Year</option>
+            </select>
+          </div>
+
+          {filteredAndSortedStudents.map((s, idx) => (
             <div key={idx} className="student-card">
               {editingIndex === idx ? (
                 <form onSubmit={saveEdit} style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                  <input
-                    type="text"
-                    name="firstName"
-                    placeholder="First Name"
-                    value={editForm.firstName}
-                    onChange={handleEditChange}
-                  />
-                  <input
-                    type="text"
-                    name="lastName"
-                    placeholder="Last Name"
-                    value={editForm.lastName}
-                    onChange={handleEditChange}
-                  />
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    value={editForm.email}
-                    onChange={handleEditChange}
-                  />
-                  <input
-                    type="text"
-                    name="studentId"
-                    placeholder="Student ID"
-                    value={editForm.studentId}
-                    onChange={handleEditChange}
-                  />
-                  <input
-                    type="text"
-                    name="department"
-                    placeholder="Department"
-                    value={editForm.department}
-                    onChange={handleEditChange}
-                  />
-                  <input
-                    type="text"
-                    name="year"
-                    placeholder="Academic Year"
-                    value={editForm.year}
-                    onChange={handleEditChange}
-                  />
+                  <input type="text" name="firstName" placeholder="First Name" value={editForm.firstName} onChange={handleEditChange} />
+                  <input type="text" name="lastName" placeholder="Last Name" value={editForm.lastName} onChange={handleEditChange} />
+                  <input type="email" name="email" placeholder="Email" value={editForm.email} onChange={handleEditChange} />
+                  <input type="text" name="studentId" placeholder="Student ID" value={editForm.studentId} onChange={handleEditChange} />
+                  <input type="text" name="faculty" placeholder="Faculty" value={editForm.faculty} onChange={handleEditChange} />
+                  <input type="text" name="year" placeholder="Year" value={editForm.year} onChange={handleEditChange} />
+                  <input type="password" name="password" placeholder="Password" value={editForm.password} onChange={handleEditChange} />
                   <div>
                     <button type="submit" style={{ marginRight: '8px' }}>Save</button>
                     <button type="button" onClick={cancelEditing}>Cancel</button>
@@ -254,7 +226,7 @@ const AddStudentPage = () => {
               ) : (
                 <>
                   <strong>{s.name}</strong><br />
-                  {s.id} • {s.department} • {s.year}<br />
+                  {s.id} • {s.faculty} • {s.year}<br />
                   {s.email}<br />
                   <button className="edit-btn" onClick={() => startEditing(idx)}>Edit</button>
                   <button className="delete-btn" onClick={() => handleDelete(idx)}>Delete</button>

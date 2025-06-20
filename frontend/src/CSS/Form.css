@@ -1,4 +1,3 @@
-
 .create-form {
   background: white;
   border-radius: 12px;
@@ -8,7 +7,7 @@
   box-shadow: 0 6px 20px #e5fafa;
 }
 
-.create-form h2{
+.create-form h2 {
   margin-bottom: 1rem;
   color: #8B1C1C;
 }
@@ -18,7 +17,6 @@
   padding: 1rem;
   border: 1px dashed #e5fafa;
   border-radius: 10px;
-  /*background-color: #e5fafa;*/
 }
 
 .question-block input {
@@ -29,7 +27,6 @@
   font-size: 14px;
   border: 1px solid #00CED1;
   border-radius: 6px;
-  /*background-color: #e5fafa;*/
 }
 
 .question-block button {
@@ -81,7 +78,7 @@
 .form-type {
   margin: 1rem auto;
   text-align: center;
-   margin-top: 50px;
+  margin-top: 50px;
 }
 
 .form-type label {
@@ -100,3 +97,34 @@
   font-size: 14px;
 }
 
+/* Additional Comments Styling */
+.additional-comments {
+  margin-top: 2rem;
+}
+
+.additional-comments label {
+  font-weight: bold;
+  color: #00CED1;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.additional-comments textarea {
+  width: 97%;
+  min-height: 100px;
+  padding: 0.75rem;
+  border-radius: 6px;
+  border: 1px solid #00CED1;
+  background-color: #e5fafa;
+  color: #666;
+  font-size: 14px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.word-count {
+  text-align: right;
+  margin-top: 0.3rem;
+  font-size: 12px;
+  color: #888;
+}
