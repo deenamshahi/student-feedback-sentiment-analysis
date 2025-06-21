@@ -447,6 +447,7 @@ public class UserService {
         // Set role-specific information
         if (user.getStudent() != null) {
             Student student = user.getStudent();
+            dto.setStudentDbId(student.getId()); // Set the actual student table ID
             dto.setStudentId(student.getStudentId());
             dto.setIntakeYear(student.getIntakeYear());
             dto.setProgramme(student.getProgramme());
@@ -461,6 +462,7 @@ public class UserService {
 
         if (user.getTeacher() != null) {
             Teacher teacher = user.getTeacher();
+            dto.setTeacherDbId(teacher.getId()); // Set the actual teacher table ID
             dto.setTeacherId(teacher.getTeacherId());
             dto.setDepartment(teacher.getDepartment());
 
@@ -474,6 +476,7 @@ public class UserService {
 
         if (user.getAdmin() != null) {
             Admin admin = user.getAdmin();
+            dto.setAdminDbId(admin.getId()); // Set the actual admin table ID
             dto.setAdminId(admin.getAdminId());
         }
 
