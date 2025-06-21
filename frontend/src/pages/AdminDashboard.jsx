@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import Sidebar from "../Components/Sidebar";
+import SentimentPieChart from "../components/charts/SentimentPieChart";
+import FeedbackBarChart from "../components/charts/FeedbackBarChart";
+import SentimentLineChart from "../components/charts/SentimentLineChart";
+import TeacherFeedbackChart from "../components/charts/TeacherFeedbackChart";
 import {
   Users,
   BarChart3,
@@ -786,19 +790,10 @@ const AdminDashboard = () => {
                   Sentiment Over Time
                 </h3>
               </div>
-              <div className="h-64 bg-gradient-to-br from-slate-50 to-blue-50 rounded-xl flex items-center justify-center border-2 border-dashed border-slate-300">
-                <div className="text-center">
-                  <Activity className="w-12 h-12 text-slate-400 mx-auto mb-3" />
-                  <p className="text-slate-500 font-medium">
-                    Line Chart Visualization
-                  </p>
-                  <p className="text-sm text-slate-400">
-                    Tracking sentiment trends over time
-                  </p>
-                </div>
+              <div className="h-64">
+                <SentimentLineChart data={currentData} />
               </div>
             </div>
-
             {/* Sentiment Distribution */}
             <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
               <div className="flex items-center space-x-3 mb-6">
@@ -807,16 +802,8 @@ const AdminDashboard = () => {
                   Sentiment Distribution
                 </h3>
               </div>
-              <div className="h-64 bg-gradient-to-br from-slate-50 to-purple-50 rounded-xl flex items-center justify-center border-2 border-dashed border-slate-300">
-                <div className="text-center">
-                  <PieChart className="w-12 h-12 text-slate-400 mx-auto mb-3" />
-                  <p className="text-slate-500 font-medium">
-                    Pie Chart Visualization
-                  </p>
-                  <p className="text-sm text-slate-400">
-                    Overall sentiment breakdown
-                  </p>
-                </div>
+              <div className="h-64">
+                <SentimentPieChart data={currentData} />
               </div>
             </div>
 
@@ -828,37 +815,24 @@ const AdminDashboard = () => {
                   Feedback per Course
                 </h3>
               </div>
-              <div className="h-64 bg-gradient-to-br from-slate-50 to-green-50 rounded-xl flex items-center justify-center border-2 border-dashed border-slate-300">
-                <div className="text-center">
-                  <BarChart3 className="w-12 h-12 text-slate-400 mx-auto mb-3" />
-                  <p className="text-slate-500 font-medium">
-                    Bar Chart Visualization
-                  </p>
-                  <p className="text-sm text-slate-400">
-                    Course-wise feedback analysis
-                  </p>
-                </div>
+              <div className="h-64">
+                <FeedbackBarChart
+                  coursesData={coursesData}
+                  analyticsData={analyticsData}
+                />
               </div>
             </div>
-
-            {/* Monthly Feedback */}
+    
+            {/* Feedback per Teacher */}
             <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
               <div className="flex items-center space-x-3 mb-6">
-                <Calendar className="w-6 h-6 text-orange-600" />
+                <User className="w-6 h-6 text-orange-600" />
                 <h3 className="text-xl font-bold text-slate-800">
-                  Monthly Feedback
+                  Feedback per Teacher
                 </h3>
               </div>
-              <div className="h-64 bg-gradient-to-br from-slate-50 to-orange-50 rounded-xl flex items-center justify-center border-2 border-dashed border-slate-300">
-                <div className="text-center">
-                  <Calendar className="w-12 h-12 text-slate-400 mx-auto mb-3" />
-                  <p className="text-slate-500 font-medium">
-                    Area Chart Visualization
-                  </p>
-                  <p className="text-sm text-slate-400">
-                    Monthly feedback trends
-                  </p>
-                </div>
+              <div className="h-64">
+                <TeacherFeedbackChart />
               </div>
             </div>
           </section>
