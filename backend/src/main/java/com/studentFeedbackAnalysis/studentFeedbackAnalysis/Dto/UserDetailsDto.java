@@ -15,7 +15,7 @@ public class UserDetailsDto {
     private String studentId;
     private String intakeYear;
     private String programme;
-    private List<CourseDto> enrolledCourses;
+    private List<CourseWithTeachersDto> enrolledCourses;
 
     // Teacher-specific fields
     private String teacherId;
@@ -53,8 +53,8 @@ public class UserDetailsDto {
     public String getProgramme() { return programme; }
     public void setProgramme(String programme) { this.programme = programme; }
 
-    public List<CourseDto> getEnrolledCourses() { return enrolledCourses; }
-    public void setEnrolledCourses(List<CourseDto> enrolledCourses) { this.enrolledCourses = enrolledCourses; }
+    public List<CourseWithTeachersDto> getEnrolledCourses() { return enrolledCourses; }
+    public void setEnrolledCourses(List<CourseWithTeachersDto> enrolledCourses) { this.enrolledCourses = enrolledCourses; }
 
     public String getTeacherId() { return teacherId; }
     public void setTeacherId(String teacherId) { this.teacherId = teacherId; }

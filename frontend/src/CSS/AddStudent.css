@@ -3,7 +3,6 @@
   transition: margin-left 0.3s ease;
 }
 
-/* Sidebar is 220px wide, so shift the main content accordingly */
 .add-student-page.sidebar-open .main-content {
   margin-left: 240px;
 }
@@ -52,6 +51,29 @@
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 6px;
+  color: #757575;
+  font-size: 0.95rem;
+}
+
+
+/* New styles for dropdown and responsive form */
+
+.student-form select {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #757575;
+  border-radius: 6px;
+  background-color: white;
+  color: #757575;
+  font-size: 0.95rem;
+}
+
+.student-form .form-row {
+  flex-wrap: wrap;
+}
+
+.student-form .form-row > * {
+  min-width: 180px;
 }
 
 .add-btn {
@@ -81,7 +103,6 @@
   border-radius: 6px;
 }
 
-/* Sidebar responsive shift */
 .add-student-page {
   display: flex;
   transition: all 0.3s ease;
@@ -98,7 +119,6 @@
   transition: all 0.3s ease;
 }
 
-/* Toast Notification */
 .toast-success {
   position: fixed;
   top: 80px;
@@ -161,4 +181,32 @@
 
 .student-card button.delete-btn:hover {
   background-color: #d32f2f;
+}
+
+/* For the search and sort controls */
+.controls {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.controls input[type="text"],
+.controls select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  flex: 1 1 200px;
+}
+
+/* Optional: Enhance student card spacing */
+.student-card {
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: #fafafa;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }

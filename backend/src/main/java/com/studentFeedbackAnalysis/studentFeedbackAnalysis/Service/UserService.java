@@ -399,6 +399,39 @@ public class UserService {
                 .map(this::convertToUserDetailsDto)
                 .toList();
     }
+    private CourseDto convertToCourseDto(Course course) {
+        CourseDto dto = new CourseDto();
+        dto.setId(course.getId());
+        dto.setCourseCode(course.getCourseCode());
+        dto.setCourseName(course.getCourseName());
+        dto.setDescription(course.getDescription());
+        return dto;
+    }
+
+    // Add this to the UserService class
+    private CourseWithTeachersDto convertToCourseWithTeachersDto(Course course) {
+        CourseWithTeachersDto dto = new CourseWithTeachersDto();
+        dto.setId(course.getId());
+        dto.setCourseCode(course.getCourseCode());
+        dto.setCourseName(course.getCourseName());
+        dto.setDescription(course.getDescription());
+
+        // Find teachers for this course
+        List<TeacherInfoDto> teacherInfos = course.getTeachers().stream()
+                .map(teacher -> {
+                    TeacherInfoDto teacherDto = new TeacherInfoDto();
+                    teacherDto.setId(teacher.getId());
+                    teacherDto.setTeacherId(teacher.getTeacherId());
+                    teacherDto.setFirstName(teacher.getUser().getFirstName());
+                    teacherDto.setLastName(teacher.getUser().getLastName());
+                    teacherDto.setDepartment(teacher.getDepartment());
+                    return teacherDto;
+                })
+                .toList();
+
+        dto.setTeachers(teacherInfos);
+        return dto;
+    }
 
     private UserDetailsDto convertToUserDetailsDto(User user) {
         UserDetailsDto dto = new UserDetailsDto();
@@ -418,10 +451,10 @@ public class UserService {
             dto.setIntakeYear(student.getIntakeYear());
             dto.setProgramme(student.getProgramme());
 
-            // Set enrolled courses
+            // Set enrolled courses with teacher information
             if (student.getEnrolledCourses() != null && !student.getEnrolledCourses().isEmpty()) {
                 dto.setEnrolledCourses(student.getEnrolledCourses().stream()
-                        .map(this::convertToCourseDto)
+                        .map(this::convertToCourseWithTeachersDto)
                         .toList());
             }
         }
@@ -444,15 +477,6 @@ public class UserService {
             dto.setAdminId(admin.getAdminId());
         }
 
-        return dto;
-    }
-
-    private CourseDto convertToCourseDto(Course course) {
-        CourseDto dto = new CourseDto();
-        dto.setId(course.getId());
-        dto.setCourseCode(course.getCourseCode());
-        dto.setCourseName(course.getCourseName());
-        dto.setDescription(course.getDescription());
         return dto;
     }
 
