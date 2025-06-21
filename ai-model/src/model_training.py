@@ -1,8 +1,6 @@
 import pandas as pd
 import string
-from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.utils import resample
 from sklearn.metrics import classification_report, accuracy_score
