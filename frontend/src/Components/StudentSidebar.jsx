@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import {
-  BookOpen,
-  MessageSquare,
-  GraduationCap,
-  LogOut,
-  Home,
-  Star
-} from "lucide-react";
+import { MessageSquare, GraduationCap, LogOut, Home, BookOpen, User } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 
 const StudentSidebar = ({ isOpen }) => {
@@ -20,8 +13,8 @@ const StudentSidebar = ({ isOpen }) => {
   useEffect(() => {
     const path = location.pathname;
     if (path === "/student-dashboard") setActiveItem("dashboard");
-    else if (path === "/my-courses") setActiveItem("courses");
-    else if (path === "/feedback") setActiveItem("feedback");
+    else if (path === "/course-feedback") setActiveItem("course-feedback");
+    else if (path === "/teacher-feedback") setActiveItem("teacher-feedback");
   }, [location.pathname]);
 
   const handleItemClick = (itemId, path) => {
@@ -44,16 +37,16 @@ const StudentSidebar = ({ isOpen }) => {
       path: "/student-dashboard",
     },
     {
-      id: "courses",
-      label: "My Courses",
+      id: "course-feedback",
+      label: "Give Course Feedback",
       icon: BookOpen,
-      path: "/my-courses",
+      path: "/course-feedback",
     },
     {
-      id: "feedback",
-      label: "Give Feedback",
-      icon: MessageSquare,
-      path: "/feedback",
+      id: "teacher-feedback",
+      label: "Give Teacher Feedback",
+      icon: User,
+      path: "/teacher-feedback",
     },
     {
       id: "logout",
@@ -114,33 +107,6 @@ const StudentSidebar = ({ isOpen }) => {
               </button>
             );
           })}
-        </div>
-
-        {/* Student Info Section */}
-        <div className="mt-8 p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl border border-blue-200">
-          <div className="flex items-center space-x-3 mb-3">
-            <div className="p-2 bg-white rounded-lg shadow-sm">
-              <Star className="w-5 h-5 text-blue-600" />
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-slate-800">Quick Stats</p>
-              <p className="text-xs text-slate-600">This Semester</p>
-            </div>
-          </div>
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <span className="text-xs text-slate-600">Courses:</span>
-              <span className="text-xs font-semibold text-slate-800">4</span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-xs text-slate-600">Credits:</span>
-              <span className="text-xs font-semibold text-slate-800">13</span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-xs text-slate-600">Feedback Given:</span>
-              <span className="text-xs font-semibold text-slate-800">2</span>
-            </div>
-          </div>
         </div>
       </nav>
     </div>
