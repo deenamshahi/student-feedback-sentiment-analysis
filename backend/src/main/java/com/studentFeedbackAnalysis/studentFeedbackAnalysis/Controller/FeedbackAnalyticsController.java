@@ -1,8 +1,6 @@
 package com.studentFeedbackAnalysis.studentFeedbackAnalysis.Controller;
 
-import com.studentFeedbackAnalysis.studentFeedbackAnalysis.Dto.CombinedSentimentCountDto;
-import com.studentFeedbackAnalysis.studentFeedbackAnalysis.Dto.SentimentCountDto;
-import com.studentFeedbackAnalysis.studentFeedbackAnalysis.Dto.StandardResponse;
+import com.studentFeedbackAnalysis.studentFeedbackAnalysis.Dto.*;
 import com.studentFeedbackAnalysis.studentFeedbackAnalysis.Service.FeedbackAnalyticsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/analytics")
@@ -83,6 +83,32 @@ public class FeedbackAnalyticsController {
                 HttpStatus.OK.value(),
                 "Retrieved sentiment counts for teacher ID: " + teacherId,
                 counts
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    // Get feedback summary for all courses
+    @GetMapping("/courses/feedback/summary")
+    @PreAuthorize("hasAuthority('Admin')")
+    public ResponseEntity<StandardResponse<List<CourseFeedbackSummaryDto>>> getAllCoursesFeedbackSummary() {
+        List<CourseFeedbackSummaryDto> summaries = feedbackAnalyticsService.getAllCoursesFeedbackSummary();
+        StandardResponse<List<CourseFeedbackSummaryDto>> response = new StandardResponse<>(
+                HttpStatus.OK.value(),
+                "Retrieved feedback summary for all courses",
+                summaries
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    // Get feedback summary for all teachers
+    @GetMapping("/teachers/feedback/summary")
+    @PreAuthorize("hasAuthority('Admin')")
+    public ResponseEntity<StandardResponse<List<TeacherFeedbackSummaryDto>>> getAllTeachersFeedbackSummary() {
+        List<TeacherFeedbackSummaryDto> summaries = feedbackAnalyticsService.getAllTeachersFeedbackSummary();
+        StandardResponse<List<TeacherFeedbackSummaryDto>> response = new StandardResponse<>(
+                HttpStatus.OK.value(),
+                "Retrieved feedback summary for all teachers",
+                summaries
         );
         return ResponseEntity.ok(response);
     }

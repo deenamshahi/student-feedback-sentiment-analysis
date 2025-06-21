@@ -1,11 +1,16 @@
 package com.studentFeedbackAnalysis.studentFeedbackAnalysis.Service;
 
 import com.studentFeedbackAnalysis.studentFeedbackAnalysis.Dto.CombinedSentimentCountDto;
+import com.studentFeedbackAnalysis.studentFeedbackAnalysis.Dto.CourseFeedbackSummaryDto;
 import com.studentFeedbackAnalysis.studentFeedbackAnalysis.Dto.SentimentCountDto;
+import com.studentFeedbackAnalysis.studentFeedbackAnalysis.Dto.TeacherFeedbackSummaryDto;
 import com.studentFeedbackAnalysis.studentFeedbackAnalysis.Repo.CourseFeedbackRepo;
 import com.studentFeedbackAnalysis.studentFeedbackAnalysis.Repo.TeacherFeedbackRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class FeedbackAnalyticsService {
@@ -68,5 +73,45 @@ public class FeedbackAnalyticsService {
         Long neutralCount = courseFeedbackRepo.countBySentimentAndCourseId("neutral", courseId);
 
         return new SentimentCountDto(positiveCount, negativeCount, neutralCount);
+    }
+
+    public List<CourseFeedbackSummaryDto> getAllCoursesFeedbackSummary() {
+        List<Object[]> results = courseFeedbackRepo.findCoursesWithFeedbackCounts();
+        List<CourseFeedbackSummaryDto> summaries = new ArrayList<>();
+
+        for (Object[] result : results) {
+            CourseFeedbackSummaryDto summary = new CourseFeedbackSummaryDto();
+            summary.setCourseId((Long) result[0]);
+            summary.setCourseCode((String) result[1]);
+            summary.setCourseName((String) result[2]);
+            summary.setFeedbackCount(((Number) result[3]).longValue());
+            summary.setPositive(result[4] != null ? ((Number) result[4]).longValue() : 0L);
+            summary.setNegative(result[5] != null ? ((Number) result[5]).longValue() : 0L);
+            summary.setNeutral(result[6] != null ? ((Number) result[6]).longValue() : 0L);
+            summaries.add(summary);
+        }
+
+        return summaries;
+    }
+
+    public List<TeacherFeedbackSummaryDto> getAllTeachersFeedbackSummary() {
+        List<Object[]> results = teacherFeedbackRepo.findTeachersWithFeedbackCounts();
+        List<TeacherFeedbackSummaryDto> summaries = new ArrayList<>();
+
+        for (Object[] result : results) {
+            TeacherFeedbackSummaryDto summary = new TeacherFeedbackSummaryDto();
+            summary.setTeacherId((Long) result[0]);
+            summary.setTeacherCode((String) result[1]);
+            summary.setFirstName((String) result[2]);
+            summary.setLastName((String) result[3]);
+            summary.setDepartment((String) result[4]);
+            summary.setFeedbackCount(((Number) result[5]).longValue());
+            summary.setPositive(result[6] != null ? ((Number) result[6]).longValue() : 0L);
+            summary.setNegative(result[7] != null ? ((Number) result[7]).longValue() : 0L);
+            summary.setNeutral(result[8] != null ? ((Number) result[8]).longValue() : 0L);
+            summaries.add(summary);
+        }
+
+        return summaries;
     }
 }
