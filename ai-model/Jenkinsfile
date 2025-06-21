@@ -39,29 +39,17 @@ pipeline {
         }
 
         stage('Performance Testing') {
-            when {
-                expression { params.RUN_PERFORMANCE_TEST }
-            }
-            steps {
-                sh '''
-                    . venv/bin/activate
-                    python3 -c "
-from src.predict import predict_sentiment, load_model
-import time
-
-model = load_model('ai-model/model/model.pkl')
-vectorizer = load_model('ai-model/model/vectorizer.pkl')
-samples = ['Amazing product!'] * 50
-start = time.time()
-[predict_sentiment(model, vectorizer, t) for t in samples]
-end = time.time()
-avg = (end - start) / len(samples)
-print(f'Avg prediction time: {avg:.4f}s')
-assert avg < 0.2, 'Model too slow!'
-"
-                '''
-            }
-        }
+    when {
+        expression { params.RUN_PERFORMANCE_TEST }
+    }
+    steps {
+        sh '''
+            . venv/bin/activate
+            export PYTHONPATH=ai-model
+            python3 -c "from src.predict import predict_sentiment, load_model; import time; model = load_model('ai-model/model/model.pkl'); vectorizer = load_model('ai-model/model/vectorizer.pkl'); samples = ['Amazing product!'] * 50; start = time.time(); [predict_sentiment(model, vectorizer, t) for t in samples]; end = time.time(); avg = (end - start) / len(samples); print(f'Avg prediction time: {avg:.4f}s'); assert avg < 0.2, 'Model too slow!'"
+        '''
+    }
+}
 
         stage('Build Docker Image') {
             steps {
