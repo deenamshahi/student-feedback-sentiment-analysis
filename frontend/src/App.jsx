@@ -11,6 +11,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CourseManagementPage from "./pages/CourseManagementPage";
+import CourseFeedbackPage from "./pages/CourseFeedbackPage";
+import TeacherFeedbackPage from "./pages/TeacherFeedbackPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -57,6 +59,24 @@ const App = () => {
               element={
                 <ProtectedRoute allowedRoles={["Admin"]}>
                   <AdminDashboard />
+                </ProtectedRoute>
+              }
+            />
+            
+            <Route
+              path="/course-feedback"
+              element={
+                <ProtectedRoute allowedRoles={["Student"]}>
+                  <CourseFeedbackPage />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/teacher-feedback"
+              element={
+                <ProtectedRoute allowedRoles={["Student"]}>
+                  <TeacherFeedbackPage />
                 </ProtectedRoute>
               }
             />
