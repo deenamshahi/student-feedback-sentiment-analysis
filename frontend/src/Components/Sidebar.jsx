@@ -22,7 +22,7 @@ const Sidebar = ({ isOpen }) => {
     if (path === "/admin-dashboard") setActiveItem("analysis");
     else if (path === "/add-student") setActiveItem("student");
     else if (path === "/teacher-management") setActiveItem("teacher");
-    else if (path === "/create-form") setActiveItem("course");
+    else if (path === "/course-management") setActiveItem("course");
   }, [location.pathname]);
 
   const handleItemClick = (itemId, path) => {
