@@ -76,7 +76,7 @@ jobs:
     - name: Trigger Jenkins deployment
       if: steps.data-check.outputs.should_retrain == 'true'
       run: |
-        response=$(curl -X POST "http://http://localhost:8080//job/sentiment-model-deploy/build" \
+        response=$(curl -X POST "http://localhost:8080//job/sentiment-model-deploy/build" \
           --user "${{ secrets.JENKINS_USERNAME }}:${{ secrets.JENKINS_PASSWORD }}" \
           --data-urlencode "MODEL_VERSION=${{ github.sha }}" \
           --data-urlencode "DATA_HASH=${{ steps.data-check.outputs.data_hash }}" \
