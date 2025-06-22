@@ -12,7 +12,7 @@ on:
       data_source:
         description: 'Data source path'
         required: false
-        default: 'ai_model/data/filtered_dataset_expanded.csv'
+        default: 'data/filtered_dataset_expanded.csv'
 
 jobs:
   retrain:
