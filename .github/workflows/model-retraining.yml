@@ -12,7 +12,7 @@ on:
       data_source:
         description: 'Data source path'
         required: false
-        default: 'ai-model/data/filtered_dataset_expanded.csv'
+        default: 'ai_model/data/filtered_dataset_expanded.csv'
 
 jobs:
   retrain:
@@ -28,12 +28,12 @@ jobs:
         python-version: '3.9'
 
     - name: Install dependencies
-      run: pip install -r ai-model/requirements.txt
+      run: pip install -r ai_model/requirements.txt
 
     - name: Check data freshness
       id: data-check
       run: |
-        DATA_HASH=$(sha256sum ai-model/data/filtered_dataset_expanded.csv | cut -d' ' -f1)
+        DATA_HASH=$(sha256sum ai_model/data/filtered_dataset_expanded.csv | cut -d' ' -f1)
         echo "data_hash=$DATA_HASH" >> $GITHUB_OUTPUT
 
         if [ "${{ github.event.inputs.force_retrain }}" = "true" ]; then
@@ -45,15 +45,17 @@ jobs:
     - name: Retrain model
       if: steps.data-check.outputs.should_retrain == 'true'
       run: |
-        python ai-model/src/model_training.py
+        cd ai_model
+        python src/model_training.py
 
     - name: Validate new model
       if: steps.data-check.outputs.should_retrain == 'true'
       run: |
+        cd ai_model
         python -c "
-        from ai-model.src.predict import predict_sentiment, load_model
-        model = load_model('ai-model/model/model.pkl')
-        vectorizer = load_model('ai-model/model/vectorizer.pkl')
+        from src.predict import predict_sentiment, load_model
+        model = load_model('model/model.pkl')
+        vectorizer = load_model('model/vectorizer.pkl')
         pred = predict_sentiment(model, vectorizer, 'Great job!')
         print(f'Prediction: {pred}')
         "
@@ -63,7 +65,7 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add ai-model/model/
+        git add ai_model/model/
         git commit -m "Retrained model - $(date)" || exit 0
         git push
 
