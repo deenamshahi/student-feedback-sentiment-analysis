@@ -26,4 +26,7 @@ public class Course {
 
     @ManyToMany(mappedBy = "teachingCourses", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Teacher> teachers;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CourseFeedback> feedbacks;
 }

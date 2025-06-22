@@ -29,4 +29,6 @@ public class Teacher {
             inverseJoinColumns = @JoinColumn(name = "course_id")
     )
     private List<Course> teachingCourses;
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TeacherFeedback> feedbacks;
 }
