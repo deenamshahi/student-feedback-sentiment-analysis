@@ -7,7 +7,7 @@ def load_data(file_path):
     data = pd.read_csv(file_path)
     return data
 
-def clean_text():
+def clean_text(text):
     text = re.sub(r'http\S+|www\S+|https\S+', '', text, flags=re.MULTILINE)
     text = re.sub(r'\@\w+|\#', '', text)
     text = re.sub(r'[^a-zA-Z\s]', '', text)

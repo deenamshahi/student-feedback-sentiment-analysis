@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 from src.data_preprocessing import preprocess_data, clean_text, load_data
 
@@ -16,8 +17,11 @@ def test_clean_text():
 
 def test_load_data():
     """Test data loading"""
-    # This assumes your test dataset exists
-    df = load_data("data/sentimentdataset.csv")
+    # Resolve path to dataset relative to the root of the repository
+    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    path = os.path.join(base_dir, "data", "filtered_dataset_expanded.csv")
+
+    df = load_data(path)
 
     assert isinstance(df, pd.DataFrame)
     assert "Text" in df.columns
@@ -29,8 +33,8 @@ def test_preprocess_data():
     """Test data preprocessing"""
     # Create sample data
     df = pd.DataFrame({
-        "text": ["Good product!", "Bad service", "Okay experience"],
-        "sentiment": ["positive", "negative", "neutral"],
+        "Text": ["Good product!", "Bad service", "Okay experience"],
+        "Sentiment": ["positive", "negative", "neutral"],
     })
 
     processed = preprocess_data(df)

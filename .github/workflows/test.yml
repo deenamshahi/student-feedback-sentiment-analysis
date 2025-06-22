@@ -23,33 +23,33 @@ jobs:
       uses: actions/cache@v3
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('ai-model/requirements.txt') }}
+        key: ${{ runner.os }}-pip-${{ hashFiles('ai_model/requirements.txt') }}
         restore-keys: |
           ${{ runner.os }}-pip-
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r ai-model/requirements.txt
+        pip install -r ai_model/requirements.txt
         pip install pytest pytest-cov flake8 black
 
     - name: Ensure __init__.py exists
-      run: echo "# Package marker" > ai-model/src/__init__.py
+      run: echo "# Package marker" > ai_model/src/__init__.py
 
     - name: Auto-format code with Black
       run: |
-        black ai-model/src/ ai-model/tests/ --exclude ai-model/src/__init__.py
+        black ai_model/src/ ai_model/tests/ --exclude ai_model/src/__init__.py
 
     - name: Code formatting check
       run: |
-        black --check ai-model/src/ ai-model/tests/
-        flake8 ai-model/src/ ai-model/tests/ --max-line-length=88
+        black --check ai_model/src/ ai_model/tests/
+        flake8 ai_model/src/ ai_model/tests/ --max-line-length=88
 
     - name: Data validation
       run: |
         python -c "
         import pandas as pd
-        df = pd.read_csv('ai-model/data/filtered_dataset_expanded.csv')
+        df = pd.read_csv('ai_model/data/filtered_dataset_expanded.csv')
         df.columns = df.columns.str.strip()
         required_cols = ['Text', 'Sentiment']
         for col in required_cols:
@@ -61,16 +61,16 @@ jobs:
     - name: Model logic test
       run: |
         python -c "
-        from ai-model.src.model_training import clean_text
-        from ai-model.src.data_preprocessing import load_data
-        data = load_data('ai-model/data/filtered_dataset_expanded.csv')
+        from ai_model.src.model_training import clean_text
+        from ai_model.src.data_preprocessing import load_data
+        data = load_data('ai_model/data/filtered_dataset_expanded.csv')
         cleaned = clean_text('Great product!!! #exciting')
         print(f'Cleaned: {cleaned}')
         "
 
     - name: Prediction tests
       run: |
-        PYTHONPATH=ai-model pytest ai-model/tests/ -v --cov=ai-model/src/ --cov-report=xml
+        PYTHONPATH=ai_model pytest ai_model/tests/ -v --cov=ai_model/src/ --cov-report=xml
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
@@ -94,7 +94,7 @@ jobs:
         pip install safety bandit
 
     - name: Check dependencies
-      run: safety check -r ai-model/requirements.txt
+      run: safety check -r ai_model/requirements.txt
 
     - name: Bandit scan
-      run: bandit -r ai-model/src/ -f json -o bandit-report.json || true
+      run: bandit -r ai_model/src/ -f json -o bandit-report.json || true
