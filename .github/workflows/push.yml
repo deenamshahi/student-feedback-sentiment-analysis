@@ -5,7 +5,7 @@ on:
     branches: [ main ]
     paths-ignore:
       - 'README.md'
-      - 'ai-model/notebooks/**'
+      - 'ai_model/notebooks/**'
       - '.gitignore'
   workflow_run:
     workflows: ["Test Sentiment Model"]
@@ -44,8 +44,8 @@ jobs:
     - name: Build and push Docker image
       uses: docker/build-push-action@v5
       with:
-        context: ./ai-model
-        file: ./ai-model/Dockerfile
+        context: ./ai_model
+        file: ./ai_model/Dockerfile
         platforms: linux/amd64,linux/arm64
         push: true
         tags: |
