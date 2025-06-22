@@ -64,11 +64,11 @@ jobs:
     - name: Commit retrained model
       if: steps.data-check.outputs.should_retrain == 'true'
       env:
-        TOKEN: ${{ secrets.PAT_PUSH_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         git config --global user.email "action@github.com"
         git config --global user.name "GitHub Action"
-        git remote set-url origin https://x-access-token:${TOKEN}@github.com/${{ github.repository }}
+        git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
         git add ai_model/model/
         git commit -m "Retrained model - $(date)" || exit 0
         git push origin main
