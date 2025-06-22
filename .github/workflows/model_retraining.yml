@@ -39,8 +39,7 @@ jobs:
         if [ "${{ github.event.inputs.force_retrain }}" = "true" ]; then
           echo "should_retrain=true" >> $GITHUB_OUTPUT
         else
-          echo "should_retrain=true" >> $GITHUB_OUTPUT
-        fi
+          echo "should_retrain=true" >> $GITHUB_OUTPUT        fi
 
     - name: Retrain model
       if: steps.data-check.outputs.should_retrain == 'true'
