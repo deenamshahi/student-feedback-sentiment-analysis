@@ -12,7 +12,7 @@ on:
       data_source:
         description: 'Data source path'
         required: false
-        default: 'data/filtered_dataset_expanded.csv'
+        default: 'ai_model/data/filtered_dataset_expanded.csv'
 
 jobs:
   retrain:
@@ -33,13 +33,15 @@ jobs:
     - name: Check data freshness
       id: data-check
       run: |
-        DATA_HASH=$(sha256sum data/filtered_dataset_expanded.csv | cut -d' ' -f1)
-        echo "data_hash=$DATA_HASH" >> $GITHUB_OUTPUT
+      DATA_HASH=$(sha256sum ai_model/data/filtered_dataset_expanded.csv | cut -d' ' -f1)
+      echo "data_hash=$DATA_HASH" >> $GITHUB_OUTPUT
 
-        if [ "${{ github.event.inputs.force_retrain }}" = "true" ]; then
-          echo "should_retrain=true" >> $GITHUB_OUTPUT
-        else
-          echo "should_retrain=true" >> $GITHUB_OUTPUT        fi
+      if [ "${{ github.event.inputs.force_retrain }}" = "true" ]; then
+        echo "should_retrain=true" >> $GITHUB_OUTPUT
+      else
+        echo "should_retrain=true" >> $GITHUB_OUTPUT
+      fi
+
 
     - name: Retrain model
       if: steps.data-check.outputs.should_retrain == 'true'
