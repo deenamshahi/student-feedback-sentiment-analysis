@@ -37,10 +37,10 @@ jobs:
         echo "data_hash=$DATA_HASH" >> $GITHUB_OUTPUT
 
         if [ "${{ github.event.inputs.force_retrain }}" = "true" ]; then
-        echo "should_retrain=true" >> $GITHUB_OUTPUT
-      else
-        echo "should_retrain=true" >> $GITHUB_OUTPUT
-      fi
+          echo "should_retrain=true" >> $GITHUB_OUTPUT
+        else
+          echo "should_retrain=true" >> $GITHUB_OUTPUT
+        fi
 
 
     - name: Retrain model
