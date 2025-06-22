@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Sidebar from "../Components/Sidebar";
 import SentimentPieChart from "../components/charts/SentimentPieChart";
 import FeedbackBarChart from "../components/charts/FeedbackBarChart";
-import SentimentLineChart from "../components/charts/SentimentLineChart";
 import TeacherFeedbackChart from "../components/charts/TeacherFeedbackChart";
 import {
   Users,
@@ -215,17 +214,6 @@ const AdminDashboard = () => {
   const currentData = getCurrentData();
   const totalFeedback =
     currentData.positive + currentData.negative + currentData.neutral;
-
-  // Calculate percentages for trends (mock calculation - you can replace with actual logic)
-  const calculateTrend = (current, type) => {
-    // Mock trend calculation - in a real app, you'd compare with previous period
-    const trends = {
-      positive: { value: 8, isPositive: true },
-      negative: { value: 3, isPositive: false },
-      neutral: { value: 0, isPositive: true },
-    };
-    return trends[type] || { value: 0, isPositive: true };
-  };
 
   // Handle refresh based on current selection
   const handleRefresh = () => {
@@ -583,19 +571,10 @@ const AdminDashboard = () => {
                 <div className="flex items-center space-x-2">
                   <div className="flex items-center space-x-1 text-blue-600">
                     <BarChart3 className="w-4 h-4" />
-                    <span className="text-sm font-medium">
-                      {selectedCourse
-                        ? "Course"
-                        : selectedTeacher
-                        ? "Teacher"
-                        : selectedFilter === "total"
-                        ? "All"
-                        : selectedFilter === "teachers"
-                        ? "Teachers"
-                        : "Courses"}
+                    <span className="text-sm text-slate-500">
+                      Total feedback count
                     </span>
                   </div>
-                  <span className="text-sm text-slate-500">feedback count</span>
                 </div>
               </div>
 
@@ -617,13 +596,10 @@ const AdminDashboard = () => {
                 <div className="flex items-center space-x-2">
                   <div className="flex items-center space-x-1 text-green-600">
                     <TrendingUp className="w-4 h-4" />
-                    <span className="text-sm font-medium">
-                      +{calculateTrend(currentData.positive, "positive").value}%
+                    <span className="text-sm text-slate-500">
+                      Positive sentiment feedback
                     </span>
                   </div>
-                  <span className="text-sm text-slate-500">
-                    satisfaction rate
-                  </span>
                 </div>
               </div>
 
@@ -645,13 +621,10 @@ const AdminDashboard = () => {
                 <div className="flex items-center space-x-2">
                   <div className="flex items-center space-x-1 text-red-600">
                     <TrendingDown className="w-4 h-4" />
-                    <span className="text-sm font-medium">
-                      -{calculateTrend(currentData.negative, "negative").value}%
+                    <span className="text-sm text-slate-500">
+                      Negative sentiment feedback
                     </span>
                   </div>
-                  <span className="text-sm text-slate-500">
-                    improvement needed
-                  </span>
                 </div>
               </div>
 
@@ -673,13 +646,10 @@ const AdminDashboard = () => {
                 <div className="flex items-center space-x-2">
                   <div className="flex items-center space-x-1 text-slate-600">
                     <Minus className="w-4 h-4" />
-                    <span className="text-sm font-medium">
-                      {calculateTrend(currentData.neutral, "neutral").value}%
+                    <span className="text-sm text-slate-500">
+                      Neutral sentiment feedback
                     </span>
                   </div>
-                  <span className="text-sm text-slate-500">
-                    stable feedback
-                  </span>
                 </div>
               </div>
             </div>
@@ -781,28 +751,16 @@ const AdminDashboard = () => {
           </section>
 
           {/* Charts Section */}
-          <section className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Sentiment Over Time */}
-            <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
-              <div className="flex items-center space-x-3 mb-6">
-                <Activity className="w-6 h-6 text-blue-600" />
-                <h3 className="text-xl font-bold text-slate-800">
-                  Sentiment Over Time
-                </h3>
-              </div>
-              <div className="h-64">
-                <SentimentLineChart data={currentData} />
-              </div>
-            </div>
-            {/* Sentiment Distribution */}
-            <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
+          <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Sentiment Distribution - Expanded to take more space */}
+            <div className="lg:col-span-1 bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
               <div className="flex items-center space-x-3 mb-6">
                 <PieChart className="w-6 h-6 text-purple-600" />
                 <h3 className="text-xl font-bold text-slate-800">
                   Sentiment Distribution
                 </h3>
               </div>
-              <div className="h-64">
+              <div className="h-80">
                 <SentimentPieChart data={currentData} />
               </div>
             </div>
@@ -815,14 +773,14 @@ const AdminDashboard = () => {
                   Feedback per Course
                 </h3>
               </div>
-              <div className="h-64">
+              <div className="h-80">
                 <FeedbackBarChart
                   coursesData={coursesData}
                   analyticsData={analyticsData}
                 />
               </div>
             </div>
-    
+
             {/* Feedback per Teacher */}
             <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
               <div className="flex items-center space-x-3 mb-6">
@@ -831,7 +789,7 @@ const AdminDashboard = () => {
                   Feedback per Teacher
                 </h3>
               </div>
-              <div className="h-64">
+              <div className="h-80">
                 <TeacherFeedbackChart />
               </div>
             </div>
