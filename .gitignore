@@ -24,6 +24,6 @@ __pycache__/
 .idea/
 .vscode/
 
-ai-model/venv/
+ai_model/venv/
 
 frontend/node_modules/
