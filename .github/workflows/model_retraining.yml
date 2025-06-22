@@ -63,12 +63,15 @@ jobs:
 
     - name: Commit retrained model
       if: steps.data-check.outputs.should_retrain == 'true'
+      env:
+        TOKEN: ${{ secrets.PAT_PUSH_TOKEN }}
       run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
+        git config --global user.email "action@github.com"
+        git config --global user.name "GitHub Action"
+        git remote set-url origin https://x-access-token:${TOKEN}@github.com/${{ github.repository }}
         git add ai_model/model/
         git commit -m "Retrained model - $(date)" || exit 0
-        git push
+        git push origin main
 
     - name: Trigger Jenkins deployment
       if: steps.data-check.outputs.should_retrain == 'true'
