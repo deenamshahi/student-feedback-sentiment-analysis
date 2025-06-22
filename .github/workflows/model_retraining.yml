@@ -33,10 +33,10 @@ jobs:
     - name: Check data freshness
       id: data-check
       run: |
-      DATA_HASH=$(sha256sum ai_model/data/filtered_dataset_expanded.csv | cut -d' ' -f1)
-      echo "data_hash=$DATA_HASH" >> $GITHUB_OUTPUT
+        DATA_HASH=$(sha256sum ai_model/data/filtered_dataset_expanded.csv | cut -d' ' -f1)
+        echo "data_hash=$DATA_HASH" >> $GITHUB_OUTPUT
 
-      if [ "${{ github.event.inputs.force_retrain }}" = "true" ]; then
+        if [ "${{ github.event.inputs.force_retrain }}" = "true" ]; then
         echo "should_retrain=true" >> $GITHUB_OUTPUT
       else
         echo "should_retrain=true" >> $GITHUB_OUTPUT
