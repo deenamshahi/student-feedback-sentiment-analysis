@@ -1,0 +1,78 @@
+name: Scheduled Model Retraining
+
+on:
+  schedule:
+    - cron: '0 2 * * 0'
+  workflow_dispatch:
+    inputs:
+      force_retrain:
+        description: 'Force retrain even if data unchanged'
+        required: false
+        default: 'false'
+      data_source:
+        description: 'Data source path'
+        required: false
+        default: 'ai_model/data/filtered_dataset_expanded.csv'
+
+jobs:
+  retrain:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: pip install -r ai_model/requirements.txt
+
+    - name: Check data freshness
+      id: data-check
+      run: |
+        DATA_HASH=$(sha256sum ai_model/data/filtered_dataset_expanded.csv | cut -d' ' -f1)
+        echo "data_hash=$DATA_HASH" >> $GITHUB_OUTPUT
+
+        if [ "${{ github.event.inputs.force_retrain }}" = "true" ]; then
+          echo "should_retrain=true" >> $GITHUB_OUTPUT
+        else
+          echo "should_retrain=true" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Retrain model
+      if: steps.data-check.outputs.should_retrain == 'true'
+      run: |
+        cd ai_model
+        python src/model_training.py
+
+    - name: Validate new model
+      if: steps.data-check.outputs.should_retrain == 'true'
+      run: |
+        cd ai_model
+        python -c "
+        from src.predict import predict_sentiment, load_model
+        model = load_model('model/model.pkl')
+        vectorizer = load_model('model/vectorizer.pkl')
+        pred = predict_sentiment(model, vectorizer, 'Great job!')
+        print(f'Prediction: {pred}')
+        "
+
+    - name: Commit retrained model
+      if: steps.data-check.outputs.should_retrain == 'true'
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add ai_model/model/
+        git commit -m "Retrained model - $(date)" || exit 0
+        git push
+
+    - name: Trigger Jenkins deployment
+      if: steps.data-check.outputs.should_retrain == 'true'
+      run: |
+        curl -X POST "${{ secrets.JENKINS_URL }}/job/sentiment-model-deploy/build" \
+          --user "${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }}" \
+          --data-urlencode "MODEL_VERSION=${{ github.sha }}" \
+          --data-urlencode "DATA_HASH=${{ steps.data-check.outputs.data_hash }}"
