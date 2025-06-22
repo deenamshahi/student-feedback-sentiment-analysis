@@ -1,0 +1,151 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_REGISTRY = credentials('shristi')
+    }
+
+    parameters {
+        string(name: 'MODEL_VERSION', defaultValue: 'latest', description: 'Model version to deploy')
+        choice(name: 'ENVIRONMENT', choices: ['staging', 'production'], description: 'Deployment environment')
+        booleanParam(name: 'RUN_PERFORMANCE_TEST', defaultValue: true, description: 'Run performance tests')
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh '''
+                    python3 -m venv venv
+                    . venv/bin/activate
+                    pip install --upgrade pip
+                    pip install -r ai_model/requirements.txt
+                '''
+            }
+        }
+
+        stage('Model Validation') {
+            steps {
+                sh '''
+                    . venv/bin/activate
+                    PYTHONPATH=ai_model python ai_model/validate_model.py
+                '''
+            }
+        }
+
+        stage('Performance Testing') {
+            when {
+                expression { params.RUN_PERFORMANCE_TEST }
+            }
+            steps {
+                sh '''
+                    . venv/bin/activate
+                    PYTHONPATH=ai_model python3 -c "
+import time
+from src.predict import predict_sentiment, load_model
+
+model = load_model('ai_model/model/model.pkl')
+vectorizer = load_model('ai_model/model/vectorizer.pkl')
+samples = ['Amazing product!'] * 50
+start = time.time()
+[predict_sentiment(model, vectorizer, t) for t in samples]
+end = time.time()
+avg = (end - start) / len(samples)
+print(f'Avg prediction time: {avg:.4f}s')
+assert avg < 0.2, 'Model too slow!'
+"
+                '''
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    def image = docker.build("shedocks/sentiment-feedbackml:${params.MODEL_VERSION}", "ai_model")
+                    docker.withRegistry('https://registry.hub.docker.com', 'shristi') {
+                        image.push("${params.MODEL_VERSION}")
+                        image.push("latest")
+                    }
+                }
+            }
+        }
+
+        stage('Deploy to Staging') {
+           when {
+               expression { params.ENVIRONMENT == 'staging' }
+           }
+           steps {
+               sh """
+                   echo "=== Staging Deployment ==="
+                   
+                   # Clean up ALL staging containers first
+                   docker ps -q --filter "name=sentiment-staging" | xargs -r docker stop || true
+                   docker ps -aq --filter "name=sentiment-staging" | xargs -r docker rm || true
+                   
+                   # Clean up any container using port 8002 (using different port to avoid conflicts)
+                   docker ps -q --filter "publish=8002" | xargs -r docker stop || true
+                   docker ps -aq --filter "publish=8002" | xargs -r docker rm || true
+                   
+                   # Wait for cleanup
+                   sleep 5
+                   
+                   # Start new container on port 8002
+                   docker run -d --name sentiment-staging-${BUILD_NUMBER} -p 8002:8000 shedocks/sentiment-feedbackml:${params.MODEL_VERSION}
+                   
+                   # Wait for startup
+                   sleep 10
+                   
+                   echo "=== Container Status ==="
+                   docker ps --filter "name=sentiment-staging-${BUILD_NUMBER}"
+                   
+                   echo "=== Container Logs ==="
+                   docker logs sentiment-staging-${BUILD_NUMBER} || true
+                   
+                   echo "✅ Staging deployed on port 8002"
+               """
+           }
+        }
+                    
+
+        stage('Deploy to Production') {
+            when {
+                expression { params.ENVIRONMENT == 'production' }
+            }
+            steps {
+                sh """
+                    docker stop sentiment-production || true
+                    docker rm sentiment-production || true
+
+                    docker run -d --name sentiment-production --restart unless-stopped -p 8000:8000 shedocks/sentiment-feedbackml:${params.MODEL_VERSION}
+                    sleep 10
+
+                    docker exec sentiment-production python3 -c 'import time; from src.predict import predict_sentiment, load_model; model = load_model("model/model.pkl"); vectorizer = load_model("model/vectorizer.pkl"); print("Prod Check:", predict_sentiment(model, vectorizer, "Fantastic!"))'
+                """
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "✅ Deployment successful: ${params.ENVIRONMENT}, version: ${params.MODEL_VERSION}"
+        }
+        failure {
+            echo "❌ Deployment failed: Env=${params.ENVIRONMENT}, Build=${BUILD_NUMBER}. See ${BUILD_URL}"
+        }
+        cleanup {
+            script {
+                if (params.ENVIRONMENT == 'staging') {
+                    sh '''
+                        docker stop sentiment-staging-${BUILD_NUMBER} || true
+                        docker rm sentiment-staging-${BUILD_NUMBER} || true
+                    '''
+                }
+            }
+        }
+    }
+}
